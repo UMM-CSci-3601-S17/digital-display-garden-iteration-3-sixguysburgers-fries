@@ -4,7 +4,7 @@ Software Design S2017, Iteration 3, Team _Six Guys Burgers 'n Fries_
 
 This repository is a fork from [Iteration 2 , _Team Grimaldi_](https://github.com/UMM-CSci-3601-S17/digital-display-garden-iteration-2-grimaldi), who forked from [Iteration 1 , Team _Claude Arabo_](https://github.com/UMM-CSci-3601-S17/digital-display-garden-iteration-1-claudearabo).
 
-## Attempted or Completed Stories
+## Purchased Stories
 * Updating the Database
 * Graphical Data Representation
 * Upload and Display/Store one Image per plant.
