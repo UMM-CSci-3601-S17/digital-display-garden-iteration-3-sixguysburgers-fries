@@ -12,10 +12,7 @@ import java.io.InputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import java.util.Date;
-import java.util.Formatter;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import static com.mongodb.client.model.Filters.exists;
 import static com.mongodb.client.model.Updates.set;
@@ -31,6 +28,8 @@ public class ExcelParser {
     private String databaseName;
 
     private InputStream stream;
+
+    private static ArrayList<String> allIds = new ArrayList<>();
 
 //    public static void main(String[] args) {
 //        parseExcel();
@@ -279,7 +278,7 @@ public class ExcelParser {
             }
         }
 
-            plants.updateMany(new Document(), new Document("$set", new Document("uploadId", uploadId)));
+            plants.updateMany(new Document("uploadId", allIds.get(allIds.size() - 2)), new Document("$set", new Document("uploadId", uploadId)));
 
 //        plants.updateMany(new Document(), new Document("uploadId", uploadId));
         setLiveUploadId(uploadId);
@@ -347,9 +346,9 @@ public class ExcelParser {
         int seconds = dt.getSecondOfMinute();
 
         formatter.format("%d-%02d-%02d %02d:%02d:%02d", year, month, day, hour, minute, seconds);
+
+        allIds.add(sb.toString());
         return sb.toString();
-
     }
-
 
 }
