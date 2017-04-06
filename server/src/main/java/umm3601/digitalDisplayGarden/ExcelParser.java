@@ -274,10 +274,14 @@ public class ExcelParser {
                 doc.append("metadata", metadataDoc);
                 doc.append("uploadId", uploadId);
                 plants.insertOne(doc);
+            }else{
+                plants.findOneAndUpdate(filter,new Document("$set", new Document("uploadId", uploadId)));
             }
         }
 
+            plants.updateMany(new Document(), new Document("$set", new Document("uploadId", uploadId)));
 
+//        plants.updateMany(new Document(), new Document("uploadId", uploadId));
         setLiveUploadId(uploadId);
     }
 

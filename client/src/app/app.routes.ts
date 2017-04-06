@@ -6,6 +6,7 @@ import {PlantComponent} from "./plants/plant.component";
 import {AdminComponent} from "./admin/admin.component";
 import {ExportComponent} from "./admin/export.component";
 import {ImportComponent} from "./admin/import.component";
+import {UpdateComponent} from "./admin/update.component";
 import {BedComponent} from "./plants/bed.component";
 
 // Route Configuration
@@ -15,6 +16,7 @@ export const routes: Routes = [
     { path: 'admin', component: AdminComponent},
     { path: 'admin/exportData', component: ExportComponent},
     { path: 'admin/importData', component: ImportComponent},
+    { path: 'admin/updateData' , component: UpdateComponent},
     { path: 'bed/:gardenLocation', component: BedComponent }
 ];
 
