@@ -3,11 +3,11 @@ import { AdminService } from './admin.service';
 
 
 @Component({
-    selector: 'import-component',
-    templateUrl: 'import.component.html',
+    selector: 'take-photo-component',
+    templateUrl: 'take-photo.component.html',
 })
 
-export class ImportComponent implements OnInit {
+export class TakePhotoComponent implements OnInit {
 
     @ViewChild('fu') fu;
 

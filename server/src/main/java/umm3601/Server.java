@@ -183,6 +183,8 @@ public class Server {
 
         });
 
+
+
         get("/*", clientRoute);
 
         // Handle "404" file not found requests:

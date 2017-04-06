@@ -1,0 +1,102 @@
+<navbar-component></navbar-component>
+
+<h2>Import Spreadsheet</h2>
+
+<file-upload #fu (change)="filename = undefined; uploadAttempted = false" [multiple]="false">-</file-upload>
+
+
+<button *ngIf="filename === undefined" class="btn btn-primary" (click)="this.handleUpload()" style="margin-top: 10px">
+    <span class="glyphicon glyphicon-upload" aria-hidden="true"></span>
+    Import
+</button>
+
+<div *ngIf="filename!==undefined"> Your file was successfully uploaded as data set {{this.filename}}.
+</div>
+<div *ngIf="filename === undefined && uploadAttempted === true">File upload failed.</div>
+
+<div>
+    <button  [routerLink]="['/admin']" class="btn btn-primary" style="float: right">Back to Admin Page</button>
+</div>
+
+<!--<navbar-component></navbar-component>-->
+
+<!--&lt;!&ndash;found at https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API/Taking_still_photos&ndash;&gt;-->
+<!--<div class="camera">-->
+    <!--<video id="video">Video stream not available.</video>-->
+    <!--<button id="startbutton">Take photo</button>-->
+<!--</div>-->
+
+<!--<canvas id="canvas">-->
+<!--</canvas>-->
+<!--<div class="output">-->
+    <!--<img id="photo" alt="The screen capture will appear in this box.">-->
+<!--</div>-->
+
+<!--<script>-->
+
+    <!--(function() {-->
+        <!--var width = 320;    // We will scale the photo width to this-->
+        <!--var height = 0;     // This will be computed based on the input stream-->
+
+        <!--var streaming = false;-->
+
+        <!--var video = null;-->
+        <!--var canvas = null;-->
+        <!--var photo = null;-->
+        <!--var startbutton = null;-->
+        <!--function startup() {-->
+            <!--video = document.getElementById('video');-->
+            <!--canvas = document.getElementById('canvas');-->
+            <!--photo = document.getElementById('photo');-->
+            <!--startbutton = document.getElementById('startbutton');-->
+        <!--}-->
+        <!--navigator.mediaDevices.getUserMedia({ video: true, audio: false })-->
+            <!--.then(function(stream) {-->
+                <!--video.srcObject = stream;-->
+                <!--video.play();-->
+            <!--})-->
+            <!--.catch(function(err) {-->
+                <!--console.log("An error occured! " + err);-->
+            <!--});-->
+        <!--video.addEventListener('canplay', function(ev){-->
+            <!--if (!streaming) {-->
+                <!--height = video.videoHeight / (video.videoWidth/width);-->
+
+                <!--video.setAttribute('width', width);-->
+                <!--video.setAttribute('height', height);-->
+                <!--canvas.setAttribute('width', width);-->
+                <!--canvas.setAttribute('height', height);-->
+                <!--streaming = true;-->
+            <!--}-->
+        <!--}, false);-->
+        <!--startbutton.addEventListener('click', function(ev){-->
+            <!--takepicture();-->
+            <!--ev.preventDefault();-->
+        <!--}, false);-->
+        <!--clearphoto();-->
+    <!--})-->
+    <!--function clearphoto() {-->
+        <!--var context = canvas.getContext('2d');-->
+        <!--context.fillStyle = "#AAA";-->
+        <!--context.fillRect(0, 0, canvas.width, canvas.height);-->
+
+        <!--var data = canvas.toDataURL('image/png');-->
+        <!--photo.setAttribute('src', data);-->
+    <!--}-->
+    <!--function takepicture() {-->
+        <!--var context = canvas.getContext('2d');-->
+        <!--if (width && height) {-->
+            <!--canvas.width = width;-->
+            <!--canvas.height = height;-->
+            <!--context.drawImage(video, 0, 0, width, height);-->
+
+            <!--var data = canvas.toDataURL('image/png');-->
+            <!--photo.setAttribute('src', data);-->
+        <!--} else {-->
+            <!--clearphoto();-->
+        <!--}-->
+    <!--}-->
+
+
+
+<!--</script>-->

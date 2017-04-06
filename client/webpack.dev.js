@@ -12,7 +12,8 @@ module.exports = {
         contentBase: path.resolve('dist'),
         historyApiFallback: true,
         stats: 'minimal',
-        port: 9000
+        port: 9000,
+        hosts: '0.0.0.0'
     },
     devtool: 'source-map',
     entry: {
