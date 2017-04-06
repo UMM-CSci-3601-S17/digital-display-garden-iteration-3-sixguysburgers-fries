@@ -4,6 +4,39 @@ Software Design S2017, Iteration 3, Team _Six Guys Burgers 'n Fries_
 
 This repository is a fork from [Iteration 2 , _Team Grimaldi_](https://github.com/UMM-CSci-3601-S17/digital-display-garden-iteration-2-grimaldi), who forked from [Iteration 1 , Team _Claude Arabo_](https://github.com/UMM-CSci-3601-S17/digital-display-garden-iteration-1-claudearabo).
 
+### Note, for fixing self-port locks:  
+##### Step One: Find the Process that's hoarding the port
+##### Step Two: Kill the Process
+
+This only works if you accidently locked the port on yourself, otherwise seek an admin or restart the computer. However, restarting the computer is frowned upon in the lab.
+
+to kill the process type: "kill PID"  
+For example:
+$ kill 3944  
+$  
+If nothing is returned, the the process was successfully killed.
+
+Finding the PID is a lot harder. Three methods are shown for reduncancy's sake.
+
+METHOD 1: Use Fuser.
+
+$ fuser 4567/tcp  
+<pre>4567/tcp:            10030</pre>  
+$ kill 10030
+
+METHOD 2: Try using netstat(works best with full-screen terminal), find the port number under Local Address, follow the row to the last column for the PID.
+
+$ netstat -tulpn  
+<pre>tcp6       0      0 :::4567                 :::\*                    LISTEN      10123/java</pre>  
+$ kill 10123
+
+METHOD 3: Type top, and pick a random Java process. If it doesn't work, keep trying!
+
+$ top   
+<pre>10123 mitch809     . . .      java</pre>  
+$ kill 10123
+
+
 ## Purchased Stories
 * Updating the Database
 * Graphical Data Representation
