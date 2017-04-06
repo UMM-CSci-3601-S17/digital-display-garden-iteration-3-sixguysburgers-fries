@@ -6,8 +6,8 @@ This repository is a fork from [Iteration 2 , _Team Grimaldi_](https://github.co
 
 ## Attempted or Completed Stories
 * Updating the Database
-* Graphical Data Representation (Graphs)
-* Upload and Store Images Admin uploads only.
+* Graphical Data Representation
+* Upload and Display/Store one Image per plant.
 
 ## Documentation
 * [Excel File Requirements](Documentation/ExcelFileRequirements.md)  
