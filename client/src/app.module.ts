@@ -17,6 +17,7 @@ import {ExportComponent} from "./app/admin/export.component";
 import {AdminService} from "./app/admin/admin.service";
 import {ImportComponent} from "./app/admin/import.component";
 import {FileUploadComponent} from "./app/admin/file-upload.component";
+import {UploadPhotoComponent} from "./app/admin/upload-photo.component";
 
 
 
@@ -39,7 +40,8 @@ import {FileUploadComponent} from "./app/admin/file-upload.component";
         ExportComponent,
         ImportComponent,
         FileUploadComponent,
-        BedComponent
+        BedComponent,
+        UploadPhotoComponent
 
     ],
     providers: [ PlantListService, AdminService ],
