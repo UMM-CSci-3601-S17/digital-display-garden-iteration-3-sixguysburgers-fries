@@ -4,6 +4,13 @@ Software Design S2017, Iteration 3, Team _Six Guys Burgers 'n Fries_
 
 This repository is a fork from [Iteration 2 , _Team Grimaldi_](https://github.com/UMM-CSci-3601-S17/digital-display-garden-iteration-2-grimaldi), who forked from [Iteration 1 , Team _Claude Arabo_](https://github.com/UMM-CSci-3601-S17/digital-display-garden-iteration-1-claudearabo).
 
+
+## Purchased Stories
+* Updating the Database
+* Graphical Data Representation
+* Upload and Display/Store one Image per plant.
+
+
 ### Note, for fixing self-port locks:  
 ##### Step One: Find the Process that's hoarding the port
 ##### Step Two: Kill the Process
@@ -36,11 +43,6 @@ $ top
 <pre>10123 mitch809     . . .      java</pre>  
 $ kill 10123
 
-
-## Purchased Stories
-* Updating the Database
-* Graphical Data Representation
-* Upload and Display/Store one Image per plant.
 
 ## Documentation
 * [Excel File Requirements](Documentation/ExcelFileRequirements.md)  
