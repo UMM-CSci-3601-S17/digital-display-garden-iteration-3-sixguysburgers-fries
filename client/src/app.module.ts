@@ -18,6 +18,7 @@ import {AdminService} from "./app/admin/admin.service";
 import {ImportComponent} from "./app/admin/import.component";
 import {FileUploadComponent} from "./app/admin/file-upload.component";
 import {UploadPhotoComponent} from "./app/admin/upload-photo.component";
+import {TakePhotoComponent} from "./app/admin/take-photo.component";
 
 
 
@@ -41,7 +42,8 @@ import {UploadPhotoComponent} from "./app/admin/upload-photo.component";
         ImportComponent,
         FileUploadComponent,
         BedComponent,
-        UploadPhotoComponent
+        UploadPhotoComponent,
+        TakePhotoComponent
 
     ],
     providers: [ PlantListService, AdminService ],

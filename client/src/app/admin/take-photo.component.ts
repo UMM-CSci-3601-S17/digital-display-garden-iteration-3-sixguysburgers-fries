@@ -9,24 +9,6 @@ import { AdminService } from './admin.service';
 
 export class TakePhotoComponent implements OnInit {
 
-    @ViewChild('fu') fu;
-
-    filename:string;
-    uploadAttempted:boolean = false;
-
-    handleUpload() {
-        this.fu.upload().subscribe(
-            response => {
-                this.filename = response.json();
-                this.uploadAttempted = true;
-            },
-            err => {
-                this.uploadAttempted = true;
-            }
-
-        );
-    }
-
     ngOnInit(): void {
 
     }
