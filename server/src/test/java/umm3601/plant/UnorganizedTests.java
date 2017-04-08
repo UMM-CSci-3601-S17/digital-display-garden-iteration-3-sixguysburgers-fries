@@ -1,23 +1,19 @@
 package umm3601.plant;
 
 import com.mongodb.MongoClient;
-import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.util.JSON;
 import org.bson.Document;
-import org.bson.types.ObjectId;
 import org.junit.Before;
 import org.junit.Test;
-import umm3601.digitalDisplayGarden.Plant;
 import umm3601.digitalDisplayGarden.PlantController;
 
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertFalse;
-import static junit.framework.TestCase.assertTrue;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
-import java.util.Iterator;
-import java.util.List;
 
 public class UnorganizedTests {
 
@@ -65,8 +61,7 @@ public class UnorganizedTests {
                                     "\"comment\" : \"Yes I swear it's the truth."+
                                 " And I owe it all to you.\"}",
                         "second uploadId");
-        boolean ans = true;
-        assertEquals(ans, plantResponse);
+        assertTrue(plantResponse);
     }
 
     @Test
@@ -77,44 +72,29 @@ public class UnorganizedTests {
         boolean plantResponse = plantController
                 .addFlowerRating(aJSON,
                         "second uploadId");
-        boolean ans = true;
-        assertEquals(ans, plantResponse);
+        assertTrue(plantResponse);
     }
 
-//    @Test
-//    public void incrementMetadata() {
-//        boolean myPlant = plantController.
-//                incrementMetadata("58d1c36efb0cac4e15afd278", "pageViews");
-//        System.out.println(plantController.
-//                incrementMetadata("58d1c36efb0cac4e15afd278", "pageViews"));
-//        assertEquals(true, myPlant);
-//    }
+    @Test
+    public void incrementMetadata() {
+    //This method is called from inside of getPlantByPlantId();
+        boolean myPlant = plantController.
+                incrementMetadata("58d1c36efb0cac4e15afd278", "pageViews");
+        assertFalse(myPlant);
+        boolean myPlant2 = plantController.incrementMetadata("16001.0","pageViews");
+        assertTrue(myPlant2);
 
-//    @Test
-//    public void addVisit() {
-//        String myPlant = plantController.addVisit();
-//    }
 
-//    @Test
-//    public void AddFlowerRatingReturnsTrueWithValidJsonInput() throws IOException{
-//
-//        String json = "{like: true, id: \"58d1c36efb0cac4e15afd202\"}";
-//
-//        assertTrue(plantController.addFlowerRating(json, "first uploadId"));
-//
-//        MongoClient mongoClient = new MongoClient();
-//        MongoDatabase db = mongoClient.getDatabase(databaseName);
-//        MongoCollection plants = db.getCollection("plants");
-//
-//        FindIterable doc = plants.find(new Document().append("_id", new ObjectId("58d1c36efb0cac4e15afd202")));
-//        Iterator iterator = doc.iterator();
-//        Document result = (Document) iterator.next();
-//
-//        List<Document> ratings = (List<Document>) ((Document) result.get("metadata")).get("ratings");
-//        assertEquals(1, ratings.size());
-//
-//        Document rating = ratings.get(0);
-//        assertTrue(rating.getBoolean("like"));
-//        assertEquals(new ObjectId("58d1c36efb0cac4e15afd202"),rating.get("ratingOnObjectOfId"));
-//    }
+    //This is necessary to test the data separately from getPlantByPlantId();
+        Document searchDocument = new Document();
+        searchDocument.append("id", "16001.0");
+        MongoClient mongoClient = new MongoClient();
+        MongoDatabase db = mongoClient.getDatabase(databaseName);
+        MongoCollection<Document> plantCollection = db.getCollection("plants");
+        String before = JSON.serialize(plantCollection.find(searchDocument));
+        plantController.incrementMetadata("16001.0","pageViews");
+        String after = JSON.serialize(plantCollection.find(searchDocument));
+
+        assertFalse(before.equals(after));
+    }
 }
