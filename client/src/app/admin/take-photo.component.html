@@ -2,83 +2,30 @@
 
 <navbar-component></navbar-component>
 
-<!--found at https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API/Taking_still_photos-->
-<div class="camera">
-    <video id="video">Video stream not available.</video>
-    <button id="startbutton">Take photo</button>
-</div>
-
-<canvas id="canvas">
-</canvas>
-<div class="output">
-    <img id="photo" alt="The screen capture will appear in this box.">
-</div>
-
+<!--found at https://developers.google.com/web/fundamentals/native-hardware/capturing-images/-->
+<video id="player" class="preview-window" controls autoplay></video>
+<button id="capture" class="capture-button">Capture</button>
+<canvas id="snapshot" width=320 height=240></canvas>
 <script>
+    var player = document.getElementById('player');
+    var snapshotCanvas = document.getElementById('snapshot');
+    var captureButton = document.getElementById('capture');
+    var videoTracks;
 
-    (function() {
-        var width = 320;    // We will scale the photo width to this
-        var height = 0;     // This will be computed based on the input stream
+    var handleSuccess = function(stream) {
+        // Attach the video stream to the video element and autoplay.
+        player.srcObject = stream;
+        videoTracks = stream.getVideoTracks();
+    };
 
-        var streaming = false;
+    captureButton.addEventListener('click', function() {
+        var context = snapshot.getContext('2d');
+        context.drawImage(player, 0, 0, snapshotCanvas.width, snapshotCanvas.height);
 
-        var video = null;
-        var canvas = null;
-        var photo = null;
-        var startbutton = null;
-        function startup() {
-            video = document.getElementById('video');
-            canvas = document.getElementById('canvas');
-            photo = document.getElementById('photo');
-            startbutton = document.getElementById('startbutton');
-        }
-        navigator.mediaDevices.getUserMedia({ video: true, audio: false })
-            .then(function(stream) {
-                video.srcObject = stream;
-                video.play();
-            })
-            .catch(function(err) {
-                console.log("An error occured! " + err);
-            });
-        video.addEventListener('canplay', function(ev){
-            if (!streaming) {
-                height = video.videoHeight / (video.videoWidth/width);
+        // Stop all video streams.
+        videoTracks.forEach(function(track) {track.stop()});
+    });
 
-                video.setAttribute('width', width);
-                video.setAttribute('height', height);
-                canvas.setAttribute('width', width);
-                canvas.setAttribute('height', height);
-                streaming = true;
-            }
-        }, false);
-        startbutton.addEventListener('click', function(ev){
-            takepicture();
-            ev.preventDefault();
-        }, false);
-        clearphoto();
-    })
-    function clearphoto() {
-        var context = canvas.getContext('2d');
-        context.fillStyle = "#AAA";
-        context.fillRect(0, 0, canvas.width, canvas.height);
-
-        var data = canvas.toDataURL('image/png');
-        photo.setAttribute('src', data);
-    }
-    function takepicture() {
-        var context = canvas.getContext('2d');
-        if (width && height) {
-            canvas.width = width;
-            canvas.height = height;
-            context.drawImage(video, 0, 0, width, height);
-
-            var data = canvas.toDataURL('image/png');
-            photo.setAttribute('src', data);
-        } else {
-            clearphoto();
-        }
-    }
-
-
-
+    navigator.mediaDevices.getUserMedia({video: true})
+        .then(handleSuccess);
 </script>
