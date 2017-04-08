@@ -30,8 +30,23 @@
     Upload an Image
 </button>
 
-
-<button type="button" class="btn btn-primary btn-lg" [routerLink]="['/admin/takePhoto']">
+<!--https://developers.google.com/web/fundamentals/native-hardware/capturing-images/-->
+<button type="button" class="btn btn-primary btn-lg">
+    <input class="camera-launch" type="file" accept="image/*" capture="camera" id="camera" >
     <span class="glyphicon glyphicon-camera" aria-hidden="true"></span>
     Take a Photo
 </button>
+
+
+
+<img id="frame">
+<script>
+    var camera = document.getElementById('camera');
+    var frame = document.getElementById('frame');
+
+    camera.addEventListener('change', function(e) {
+        var file = e.target.files[0];
+        // Do something with the image file.
+        frame.src = URL.createObjectURL(file);
+    });
+</script>

@@ -8,7 +8,7 @@ import {ExportComponent} from "./admin/export.component";
 import {ImportComponent} from "./admin/import.component";
 import {BedComponent} from "./plants/bed.component";
 import {UploadPhotoComponent} from "./admin/upload-photo.component";
-import {TakePhotoComponent} from "./admin/take-photo.component";
+
 
 // Route Configuration
 export const routes: Routes = [
@@ -19,7 +19,6 @@ export const routes: Routes = [
     { path: 'admin/importData', component: ImportComponent},
     { path: 'bed/:gardenLocation', component: BedComponent },
     { path: 'admin/uploadPhoto', component: UploadPhotoComponent },
-    { path: 'admin/takePhoto', component: TakePhotoComponent }
 
 ];
 
