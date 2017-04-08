@@ -3,6 +3,7 @@ package umm3601;
 import spark.Route;
 import spark.utils.IOUtils;
 import com.mongodb.util.JSON;
+import umm3601.digitalDisplayGarden.ImageHandler;
 import umm3601.digitalDisplayGarden.PlantController;
 
 import java.io.File;
@@ -28,6 +29,8 @@ public class Server {
     public static String databaseName = "test";
 
     private static String excelTempDir = "/tmp/digital-display-garden";
+
+    private static String imageDir = "/images";
 
     public static void main(String[] args) throws IOException {
 
@@ -176,6 +179,26 @@ public class Server {
 
                 return JSON.serialize(id);
 
+            } catch (Exception e) {
+                e.printStackTrace();
+                throw e;
+            }
+
+        });
+
+        post("api/upload-photo", (req, res) -> {
+
+            res.type("application/json");
+            try {
+
+                MultipartConfigElement multipartConfigElement = new MultipartConfigElement(imageDir);
+                req.raw().setAttribute("org.eclipse.jetty.multipartConfig", multipartConfigElement);
+
+                Part part = req.raw().getPart("file[]");
+
+                ImageHandler handler = new ImageHandler(part.getInputStream());
+
+                return null;
             } catch (Exception e) {
                 e.printStackTrace();
                 throw e;
