@@ -5,9 +5,9 @@ import { Http } from '@angular/http';
 
 @Component({
     selector: 'image-upload',
-    template: '<input type="image" >'
+    template: '<input type="image" [multiple]="multiple" #fileInput >'
 })
-export class FileUploadComponent {
+export class ImageUploadComponent {
     @Input() multiple: boolean = false;
     @ViewChild('fileinput') inputEl: ElementRef;
 
@@ -21,7 +21,7 @@ export class FileUploadComponent {
             for (let i = 0; i < fileCount; i++) {
                 formData.append('file[]', inputEl.files.item(i));
             }
-            return this.http.post(API_URL + "import", formData);
+            return this.http.post(API_URL + "upload-photo", formData);
         }
     }
 }
