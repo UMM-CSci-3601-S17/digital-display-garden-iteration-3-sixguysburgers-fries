@@ -25,7 +25,7 @@ export class GraphComponent {
      }
 
     public line_ChartData = {
-        chartType: `LineChart`,
+        chartType: `ColumnChart`,
         dataTable: [
             ['Year', 'Sales', 'Expenses'],
             ['2004', 1000, 400],
@@ -34,5 +34,4 @@ export class GraphComponent {
             ['2007', 1030, 540]],
         options: {'title': 'dataAndStuff'},
     };
-
 }

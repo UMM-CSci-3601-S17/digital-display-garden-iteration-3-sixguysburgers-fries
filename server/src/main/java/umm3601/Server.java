@@ -77,6 +77,12 @@ public class Server {
             return plantController.listPlants(req.queryMap().toMap(), plantController.getLiveUploadId());
         });
 
+        // Post Data
+        get("api/postData", (req, res) -> {
+            res.type("application/json");
+            return plantController.postData(req.queryMap().toMap(), plantController.getLiveUploadId());
+        });
+
         //Get a plant
         get("api/plants/:plantID", (req, res) -> {
             res.type("application/json");
@@ -182,6 +188,8 @@ public class Server {
             }
 
         });
+
+
 
         get("/*", clientRoute);
 

@@ -1,9 +1,7 @@
 package umm3601.digitalDisplayGarden;
 
-import com.google.gson.Gson;
 import com.mongodb.MongoClient;
 import com.mongodb.client.*;
-import com.mongodb.client.model.Accumulators;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Sorts;
 import com.mongodb.util.JSON;
@@ -12,7 +10,6 @@ import org.bson.Document;
 import org.bson.types.ObjectId;
 
 import org.bson.conversions.Bson;
-import org.joda.time.DateTime;
 
 import java.io.OutputStream;
 import java.util.Iterator;
@@ -34,6 +31,7 @@ public class PlantController {
     private final MongoCollection<Document> plantCollection;
     private final MongoCollection<Document> commentCollection;
     private final MongoCollection<Document> configCollection;
+    private final MongoCollection<Document> graphInfoCollection;
 
     public PlantController(String databaseName) throws IOException {
         // Set up our server address
@@ -50,6 +48,7 @@ public class PlantController {
         plantCollection = db.getCollection("plants");
         commentCollection = db.getCollection("comments");
         configCollection = db.getCollection("config");
+        graphInfoCollection = db.getCollection("graphData");
     }
 
     public String getLiveUploadId() {
@@ -87,8 +86,56 @@ public class PlantController {
 
         FindIterable<Document> matchingPlants = plantCollection.find(filterDoc);
 
+
+
         return JSON.serialize(matchingPlants);
     }
+    public String postData(Map<String, String[]> queryParams, String uploadId){
+        Document filterDoc = new Document();
+        filterDoc.append("uploadId", uploadId);
+
+        FindIterable matchingPlants = plantCollection.find(filterDoc);
+
+        Iterator iterator = matchingPlants.iterator();
+
+        while(iterator.hasNext()){
+            Document result = (Document) iterator.next();
+            int total = 0;
+            int likes = 0;
+            int dislikes = 0;
+            Document out = new Document();
+
+            String name =(String) result.get("cultivar");
+            List<Document> ratings = (List<Document>) ((Document) result.get("metadata")).get("ratings");
+            int view = (int) ((Document) result.get("metadata")).get("pageViews");
+            String id = (String) result.get("id");
+            for(Document rating : ratings)
+            {
+                if(rating.get("like").equals(true)) {
+                    total++;
+                    likes++;
+                }
+                else if(rating.get("like").equals(false)) {
+                    total--;
+                    dislikes++;
+                }
+            }
+
+            out.append("cultivar", name);
+            out.append("rating", total);
+            out.append("pageViews", view);
+            out.append("likes", likes);
+            out.append("dislikes",dislikes);
+            out.append("id", id);
+
+            graphInfoCollection.insertOne(out);
+
+        }
+
+
+        return "posted";
+    }
+
 
     /**
      * Takes a String representing an ID number of a plant
