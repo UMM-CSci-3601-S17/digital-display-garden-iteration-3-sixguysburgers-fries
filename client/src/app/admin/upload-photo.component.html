@@ -1,8 +1,12 @@
 <navbar-component></navbar-component>
 
 <h2>Upload Photo</h2>
+<!--<file-upload #fu (change)="filename = undefined; uploadAttempted = false" [multiple]="false">-</file-upload>-->
 
-<file-upload #fu (change)="filename = undefined; uploadAttempted = false" [multiple]="false">-</file-upload>
+
+<image-upload #fu (change)="filename = undefined; uploadAttempted = false" [multiple]="false">-</image-upload>
+
+
 
 
 <button *ngIf="filename === undefined" class="btn btn-primary" (click)="this.handleUpload()" style="margin-top: 10px">
@@ -10,9 +14,23 @@
     Import
 </button>
 
+<br>
+
 <div *ngIf="filename!==undefined"> Your file was successfully uploaded as data set {{this.filename}}.
 </div>
 <div *ngIf="filename === undefined && uploadAttempted === true">File upload failed.</div>
+
+<br>
+
+<div>
+    <!--https://developers.google.com/web/fundamentals/native-hardware/capturing-images/-->
+    <button type="button" class="btn btn-primary btn-lg">
+        <input class="camera-launch" type="file" accept="image/*" capture="camera" id="camera" >
+        <span class="glyphicon glyphicon-camera" aria-hidden="true"></span>
+    </button>
+
+</div>
+
 
 <div>
 <button  [routerLink]="['/admin']" class="btn btn-primary" style="float: right">Back to Admin Page</button>

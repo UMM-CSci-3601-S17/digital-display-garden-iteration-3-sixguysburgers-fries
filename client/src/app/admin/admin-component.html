@@ -25,18 +25,10 @@
 
 <h2>Upload Photo</h2>
 
-<button type="button" class="btn btn-primary btn-lg" [routerLink]="['/admin/uploadPhoto']">
+<button id="b1" type="button" class="btn btn-primary btn-lg" [routerLink]="['/admin/uploadPhoto']">
     <span class="glyphicon glyphicon-picture" aria-hidden="true"></span>
     Upload an Image
 </button>
-
-<!--https://developers.google.com/web/fundamentals/native-hardware/capturing-images/-->
-<button type="button" class="btn btn-primary btn-lg">
-    <input class="camera-launch" type="file" accept="image/*" capture="camera" id="camera" >
-    <span class="glyphicon glyphicon-camera" aria-hidden="true"></span>
-    Take a Photo
-</button>
-
 
 
 <img id="frame">
