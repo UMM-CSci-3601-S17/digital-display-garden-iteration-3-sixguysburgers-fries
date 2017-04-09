@@ -17,6 +17,7 @@ import {ExportComponent} from "./app/admin/export.component";
 import {AdminService} from "./app/admin/admin.service";
 import {ImportComponent} from "./app/admin/import.component";
 import {FileUploadComponent} from "./app/admin/file-upload.component";
+import {ImageUploadComponent} from "./app/admin/image-upload.component";
 import {UploadPhotoComponent} from "./app/admin/upload-photo.component";
 
 
@@ -40,6 +41,7 @@ import {UploadPhotoComponent} from "./app/admin/upload-photo.component";
         ExportComponent,
         ImportComponent,
         FileUploadComponent,
+        ImageUploadComponent,
         BedComponent,
         UploadPhotoComponent,
 
