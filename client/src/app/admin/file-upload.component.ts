@@ -24,4 +24,6 @@ export class FileUploadComponent {
             return this.http.post(API_URL + "import", formData);
         }
     }
+
+
 }

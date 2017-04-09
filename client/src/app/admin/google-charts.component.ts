@@ -1,13 +1,10 @@
-/**
- * Created by holma198 on 4/9/17.
- */
-
 import {Component, OnInit} from '@angular/core';
 import { Ng2GoogleChartsModule } from 'ng2-google-charts';
 import {AdminService} from "./admin.service";
 import {Observable} from "rxjs";
 
 @Component({
+    selector: 'google-charts.component',
     templateUrl: 'google-charts.component.html'
 })
 
@@ -21,11 +18,11 @@ export class GraphComponent {
         this.text = "Hello world!";
     }
 
-    /*
+
      ngOnInit(): void {
      this.adminService.getUploadIds()
      .subscribe(result => this.uploadIds = result , err => console.log(err));
-     }*/
+     }
 
     public line_ChartData = {
         chartType: `LineChart`,

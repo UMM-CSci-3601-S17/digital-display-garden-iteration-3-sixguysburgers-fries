@@ -21,8 +21,6 @@ import {FileUploadComponent} from "./app/admin/file-upload.component";
 import {GraphComponent} from "./app/admin/google-charts.component";
 import { Ng2GoogleChartsModule } from 'ng2-google-charts';
 
-
-
 @NgModule({
     imports: [
         BrowserModule,
