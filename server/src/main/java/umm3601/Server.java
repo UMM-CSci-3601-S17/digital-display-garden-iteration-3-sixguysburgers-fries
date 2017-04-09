@@ -3,6 +3,7 @@ package umm3601;
 import spark.Route;
 import spark.utils.IOUtils;
 import com.mongodb.util.JSON;
+import umm3601.digitalDisplayGarden.ImageHandler;
 import umm3601.digitalDisplayGarden.PlantController;
 
 import java.io.File;
@@ -28,6 +29,8 @@ public class Server {
     public static String databaseName = "test";
 
     private static String excelTempDir = "/tmp/digital-display-garden";
+
+    private static String imageDir = "/images";
 
     public static void main(String[] args) throws IOException {
 
@@ -55,7 +58,7 @@ public class Server {
             if (accessControlRequestMethod != null) {
                 response.header("Access-Control-Allow-Methods", accessControlRequestMethod);
             }
- 
+
             return "OK";
         });
 
@@ -173,6 +176,7 @@ public class Server {
 
                 String id = ExcelParser.getAvailableUploadId();
                 parser.parseExcel(id);
+                System.out.println("This is a print thingy");
 
                 return JSON.serialize(id);
 
@@ -183,7 +187,25 @@ public class Server {
 
         });
 
+        post("api/upload-photo", (req, res) -> {
 
+            res.type("application/json");
+            try {
+
+                MultipartConfigElement multipartConfigElement = new MultipartConfigElement(imageDir);
+                req.raw().setAttribute("org.eclipse.jetty.multipartConfig", multipartConfigElement);
+
+                Part part = req.raw().getPart("file[]");
+
+                ImageHandler handler = new ImageHandler(part.getInputStream());
+
+                return null;
+            } catch (Exception e) {
+                e.printStackTrace();
+                throw e;
+            }
+
+        });
 
         get("/*", clientRoute);
 
