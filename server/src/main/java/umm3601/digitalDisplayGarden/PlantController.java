@@ -148,7 +148,7 @@ public class PlantController {
      * @param uploadID Dataset to find the plant
      *
      * @return JSON for the number of comments, likes, and dislikes
-     * Of the form:
+     * Of the form:All
      * {
      *     commentCount: number
      *     likeCount: number

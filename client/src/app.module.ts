@@ -18,6 +18,8 @@ import {AdminService} from "./app/admin/admin.service";
 import {ImportComponent} from "./app/admin/import.component";
 import {FileUploadComponent} from "./app/admin/file-upload.component";
 
+import {GraphComponent} from "./app/admin/google-charts.component";
+import { Ng2GoogleChartsModule } from 'ng2-google-charts';
 
 
 
@@ -28,7 +30,8 @@ import {FileUploadComponent} from "./app/admin/file-upload.component";
         JsonpModule,
         routing,
         FormsModule,
-        PipeModule
+        PipeModule,
+        Ng2GoogleChartsModule,
     ],
     declarations: [
         AppComponent,
@@ -39,7 +42,8 @@ import {FileUploadComponent} from "./app/admin/file-upload.component";
         ExportComponent,
         ImportComponent,
         FileUploadComponent,
-        BedComponent
+        BedComponent,
+        GraphComponent,
 
     ],
     providers: [ PlantListService, AdminService ],
