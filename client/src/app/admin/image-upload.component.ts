@@ -5,15 +5,16 @@ import { Http } from '@angular/http';
 
 @Component({
     selector: 'image-upload',
-    template: '<input type="image" [multiple]="multiple" #fileInput >'
+    template: '<input type="file" [multiple]="multiple" #fileInput >'
 })
 export class ImageUploadComponent {
     @Input() multiple: boolean = false;
-    @ViewChild('fileinput') inputEl: ElementRef;
+    @ViewChild('fileInput') inputEl: ElementRef;
 
     constructor(private http: Http) {}
 
     upload() {
+        console.log("this.inputEl = " + this.inputEl.nativeElement.files.item(0));
         let inputEl: HTMLInputElement = this.inputEl.nativeElement;
         let fileCount: number = inputEl.files.length;
         let formData = new FormData();
