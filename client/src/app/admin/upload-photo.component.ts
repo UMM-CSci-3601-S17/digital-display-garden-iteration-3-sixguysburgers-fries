@@ -1,5 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import { AdminService } from './admin.service';
+import {ImageUploadComponent} from "./image-upload.component";
 
 
 @Component({
@@ -9,13 +10,14 @@ import { AdminService } from './admin.service';
 
 export class UploadPhotoComponent implements OnInit {
 
-    @ViewChild('fu') fu;
+    @ViewChild('iu') iu;
 
     filename:string;
     uploadAttempted:boolean = false;
 
     handleUpload(){
-        this.fu.upload().subscribe(
+        console.log("this.iu.upload() = " + this.iu);
+        this.iu.upload().subscribe(
             response => {
                 this.filename = response.json();
                 this.uploadAttempted = true;

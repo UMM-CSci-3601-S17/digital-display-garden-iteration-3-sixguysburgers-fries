@@ -14,6 +14,7 @@ export class FileUploadComponent {
     constructor(private http: Http) {}
 
     upload() {
+        console.log("this.inputEl = " + this.inputEl.nativeElement.files.item(0));
         let inputEl: HTMLInputElement = this.inputEl.nativeElement;
         let fileCount: number = inputEl.files.length;
         let formData = new FormData();
