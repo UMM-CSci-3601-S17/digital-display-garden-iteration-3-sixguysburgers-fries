@@ -4,7 +4,7 @@
 
 <file-upload #fu (change)="filename = undefined; uploadAttempted = false" [multiple]="false">-</file-upload>
 
-<button  *ngIf="filename === undefined" class="btn btn-primary" (click)="this.handleUpload(); openPopup('large', 'You Are About To Upload A New File')" style="margin-top: 10px">
+<button  *ngIf="filename === undefined" class="btn btn-primary" (click)="openPopup('large', 'You Are About To Update This File'); this.handleUpload()" style="margin-top: 10px">
     <span class="glyphicon glyphicon-upload" aria-hidden="true"></span>
     Upload
 </button>
@@ -17,7 +17,7 @@
     <button  [routerLink]="['/admin']" class="btn btn-primary" style="float: right">Back to Admin Page</button>
 </div>
 
-<button  *ngIf="filename === undefined" class="btn btn-primary" (click)="this.clearDb(); openPopup('large', 'You Are About To Delete all data in the spreadsheet!')" style="margin-top: 10px">
+<button  *ngIf="filename === undefined" class="btn btn-primary" (click)="openPopup('large', 'You Are About To Delete all data in the spreadsheet!'); this.clearDb()" style="margin-top: 10px">
     <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
      Clear DB
 </button>

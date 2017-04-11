@@ -36,15 +36,18 @@ export class UpdateComponent implements OnInit {
     clearAttempted;boolean = false;
 
     clearDb() {
-        this.fu.clear().subscribe(
-            response => {
-                this.fName = response.json();
-                this.clearAttempted = true;
-            },
-            err => {
-                this.clearAttempted = true;
-            }
-        );
+        if (this.okConfirmation === "ok") {
+            this.okConfirmation ="no";
+            this.fu.clear().subscribe(
+                response => {
+                    this.fName = response.json();
+                    this.clearAttempted = true;
+                },
+                err => {
+                    this.clearAttempted = true;
+                }
+            );
+        }
     }
 
 
@@ -67,9 +70,11 @@ export class UpdateComponent implements OnInit {
                     this.okConfirmation = "ok";
                     this.message = "Ok button is pressed";
                     this.popup.close();
+                    this.handleUpload();
                 },
                 CANCEL: () => {
                     this.message = "Cancel button is pressed";
+                    this.okConfirmation = "nope";
                     //noinspection TypeScriptUnresolvedFunction
                     this.popup.close();
                 }
