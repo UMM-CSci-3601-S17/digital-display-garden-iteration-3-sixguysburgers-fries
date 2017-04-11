@@ -149,21 +149,25 @@ public class PlantController {
             }
         }
 
-        Object[][] dataTable = new Object[beds.size() + 1][2];
+        Object[][] dataTable = new Object[beds.size() + 1][3];
 
         dataTable[0][0] = "Bed";
-        dataTable[0][1] = "All Likes for each Bed";
+        dataTable[0][1] = "Total Likes";
+        dataTable[0][2] = "Total Visits";
         int dataCounter = 1;
         for (int i = 0; i < beds.size(); i++) {
             FindIterable<Document> currentBedMembers = graphInfoCollection.find(new Document("gardenLocation", beds.get(i)));
             iterator = currentBedMembers.iterator();
             dataTable[dataCounter][0] = beds.get(i);
             Integer currentRating = 0;
+            Integer currentViews = 0;
             while(iterator.hasNext()){
                 Document current = (Document) iterator.next();
                 currentRating += (Integer) current.get("rating");
+                currentViews += (Integer) current.get("pageViews");
             }
             dataTable[dataCounter][1] = currentRating;
+            dataTable[dataCounter][2] = currentViews;
             dataCounter++;
         }
 
