@@ -34,6 +34,17 @@
   version "3.4.6"
   resolved "https://registry.yarnpkg.com/@angular/router/-/router-3.4.6.tgz#df708503f2006a090a2704f5490a9ea1ba9fc9d0"
 
+"@ngui/overlay@^0.8.0":
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/@ngui/overlay/-/overlay-0.8.0.tgz#617a7c2d0e38b36ce115eeeb2d2295dd4ee8dd06"
+
+"@ngui/popup@^0.5.0":
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/@ngui/popup/-/popup-0.5.0.tgz#e6dd72ad2cb6ec2f67e5ca2697182bdda26efe50"
+  dependencies:
+    "@ngui/overlay" "^0.8.0"
+    ng2-overlay "^0.7.0"
+
 abbrev@1:
   version "1.0.9"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.0.9.tgz#91b4792588a7738c25f35dd6f63752a2f8776135"
@@ -2482,6 +2493,10 @@ ncname@1.0.x:
 negotiator@0.6.1:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/negotiator/-/negotiator-0.6.1.tgz#2b327184e8992101177b28563fb5e7102acd0ca9"
+
+ng2-overlay@^0.7.0:
+  version "0.7.2"
+  resolved "https://registry.yarnpkg.com/ng2-overlay/-/ng2-overlay-0.7.2.tgz#6d26296b0b129ea8a7c6bd98bd7def831466dccc"
 
 no-case@^2.2.0:
   version "2.3.1"

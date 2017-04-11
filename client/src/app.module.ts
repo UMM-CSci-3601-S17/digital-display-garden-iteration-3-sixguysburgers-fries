@@ -18,6 +18,7 @@ import {AdminService} from "./app/admin/admin.service";
 import {ImportComponent} from "./app/admin/import.component";
 import {FileUploadComponent} from "./app/admin/file-upload.component";
 import {UpdateComponent} from "./app/admin/update.component";
+import { NguiPopupModule } from '@ngui/popup';
 
 
 
@@ -30,6 +31,7 @@ import {UpdateComponent} from "./app/admin/update.component";
         routing,
         FormsModule,
         PipeModule,
+        NguiPopupModule
     ],
     declarations: [
         AppComponent,
