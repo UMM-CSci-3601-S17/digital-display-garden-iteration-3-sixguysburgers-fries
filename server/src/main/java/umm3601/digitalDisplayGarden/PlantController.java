@@ -31,9 +31,11 @@ import static com.mongodb.client.model.Updates.push;
 
 public class PlantController {
 
+    MongoClient mongoClient = new MongoClient(); // Defaults!
     private final MongoCollection<Document> plantCollection;
     private final MongoCollection<Document> commentCollection;
     private final MongoCollection<Document> configCollection;
+    String dbName;
 
     public PlantController(String databaseName) throws IOException {
         // Set up our server address
@@ -42,7 +44,6 @@ public class PlantController {
 
         // Try connecting to the server
         //MongoClient mongoClient = new MongoClient(testAddress, credentials);
-        MongoClient mongoClient = new MongoClient(); // Defaults!
 
         // Try connecting to a database
         MongoDatabase db = mongoClient.getDatabase(databaseName);
@@ -50,6 +51,7 @@ public class PlantController {
         plantCollection = db.getCollection("plants");
         commentCollection = db.getCollection("comments");
         configCollection = db.getCollection("config");
+        dbName = databaseName;
     }
 
     public String getLiveUploadId() {
@@ -88,6 +90,14 @@ public class PlantController {
         FindIterable<Document> matchingPlants = plantCollection.find(filterDoc);
 
         return JSON.serialize(matchingPlants);
+    }
+
+    public String destroyDb(){
+        MongoDatabase db = mongoClient.getDatabase(dbName);
+
+        db.drop();
+
+        return "destroyed";
     }
 
     /**

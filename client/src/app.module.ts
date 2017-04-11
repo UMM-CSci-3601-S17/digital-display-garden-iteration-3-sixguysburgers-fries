@@ -21,7 +21,6 @@ import {UpdateComponent} from "./app/admin/update.component";
 
 
 
-
 @NgModule({
     imports: [
         BrowserModule,

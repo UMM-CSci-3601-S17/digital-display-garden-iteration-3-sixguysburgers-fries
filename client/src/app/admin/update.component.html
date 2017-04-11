@@ -5,7 +5,7 @@
 <file-upload #fu (change)="filename = undefined; uploadAttempted = false" [multiple]="false">-</file-upload>
 
 
-<button *ngIf="filename === undefined" class="btn btn-primary" (click)="this.handleUpload()" style="margin-top: 10px">
+<button  *ngIf="filename === undefined" class="btn btn-primary" (click)="this.handleUpload()" style="margin-top: 10px">
     <span class="glyphicon glyphicon-upload" aria-hidden="true"></span>
     Upload
 </button>
@@ -17,3 +17,8 @@
 <div>
     <button  [routerLink]="['/admin']" class="btn btn-primary" style="float: right">Back to Admin Page</button>
 </div>
+
+<button  *ngIf="filename === undefined" class="btn btn-primary" (click)="this.clearDb()" style="margin-top: 10px">
+    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+     Clear DB
+</button>

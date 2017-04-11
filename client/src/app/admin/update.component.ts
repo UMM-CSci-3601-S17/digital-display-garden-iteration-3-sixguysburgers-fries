@@ -23,7 +23,21 @@ export class UpdateComponent implements OnInit {
             err => {
                 this.uploadAttempted = true;
             }
+        );
+    }
 
+    fName:string;
+    clearAttempted:boolean = false;
+
+    clearDb(){
+        this.fu.clear().subscribe(
+            response => {
+                this.fName = response.json();
+                this.clearAttempted = true;
+            },
+            err => {
+                this.clearAttempted = true;
+            }
         );
     }
 

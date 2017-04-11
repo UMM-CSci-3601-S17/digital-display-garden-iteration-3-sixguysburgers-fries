@@ -11,6 +11,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import com.mongodb.BasicDBObject;
+import com.mongodb.MongoClient;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
 
 import static spark.Spark.*;
 
@@ -205,7 +209,19 @@ public class Server {
                 throw e;
             }
 
+
         });
+
+        get("api/destroy", (req, res) -> {
+
+            res.type("application/json");
+
+            return plantController.destroyDb();
+
+
+        });
+
+
 
 
         get("/*", clientRoute);
@@ -216,5 +232,6 @@ public class Server {
             res.status(404);
             return "Sorry, we couldn't find that!";
         });
+
     }
 }

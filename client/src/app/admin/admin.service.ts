@@ -14,4 +14,9 @@ export class AdminService {
     getLiveUploadId(): Observable<string> {
         return this.http.request(this.url + "liveUploadId").map(res => res.json());
     }
+
+    destroyDb(): Observable<string> {
+        return this.http.request(this.url + "destroyDb").map(res => res.json());
+    }
+
 }
