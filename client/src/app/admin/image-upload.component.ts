@@ -5,7 +5,7 @@ import { Http } from '@angular/http';
 
 @Component({
     selector: 'image-upload',
-    template: '<input type="file" [multiple]="multiple" #fileInput >'
+    template: '<input #fileInput class="camera-launch" type="file" accept="image/*" capture="camera" id="camera" >'
 })
 export class ImageUploadComponent {
     @Input() multiple: boolean = false;
