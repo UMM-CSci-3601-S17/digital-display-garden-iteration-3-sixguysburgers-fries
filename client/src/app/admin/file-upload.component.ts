@@ -11,7 +11,8 @@ export class FileUploadComponent {
     @Input() multiple: boolean = false;
     @ViewChild('fileInput') inputEl: ElementRef;
 
-    constructor(private http: Http) {}
+    constructor(private http: Http) {
+    }
 
     upload() {
         let inputEl: HTMLInputElement = this.inputEl.nativeElement;
@@ -38,14 +39,7 @@ export class FileUploadComponent {
     }
 
     clear() {
-        let inputEl: HTMLInputElement = this.inputEl.nativeElement;
-        let fileCount: number = inputEl.files.length;
-        let formData = new FormData();
-        if (fileCount > 0) { // a file was selected
-            for (let i = 0; i < fileCount; i++) {
-                formData.append('file[]', inputEl.files.item(i));
-            }
-            return this.http.request(API_URL + "destroy", formData);
-        }
+
+        return this.http.request(API_URL + "destroy");
     }
 }

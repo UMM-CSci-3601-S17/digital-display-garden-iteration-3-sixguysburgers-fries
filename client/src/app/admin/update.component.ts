@@ -32,15 +32,12 @@ export class UpdateComponent implements OnInit {
             }
         }
 
-    fName:string;
+
     clearAttempted;boolean = false;
 
     clearDb() {
-        if (this.okConfirmation === "ok") {
-            this.okConfirmation ="no";
             this.fu.clear().subscribe(
                 response => {
-                    this.fName = response.json();
                     this.clearAttempted = true;
                 },
                 err => {
@@ -48,7 +45,6 @@ export class UpdateComponent implements OnInit {
                 }
             );
         }
-    }
 
 
 
@@ -68,6 +64,29 @@ export class UpdateComponent implements OnInit {
             buttons: {
                 OK: () => {
                     this.okConfirmation = "ok";
+                    this.message = "Ok button is pressed";
+                    this.popup.close();
+                    this.handleUpload();
+                },
+                CANCEL: () => {
+                    this.message = "Cancel button is pressed";
+                    this.okConfirmation = "nope";
+                    //noinspection TypeScriptUnresolvedFunction
+                    this.popup.close();
+                }
+            }
+        });
+    }
+
+    openPopup2(size, title) {
+        //noinspection TypeScriptUnresolvedFunction
+        this.popup.open(NguiMessagePopupComponent, {
+            classNames: size,
+            title: title,
+            message: "Are You Sure?",
+            buttons: {
+                OK: () => {
+                    this.okConfirmation = "deleteConfirm";
                     this.message = "Ok button is pressed";
                     this.popup.close();
                     this.handleUpload();

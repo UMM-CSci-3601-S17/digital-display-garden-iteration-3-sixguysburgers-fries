@@ -18,7 +18,7 @@
 <button  [routerLink]="['/admin']" class="btn btn-primary" style="float: right">Back to Admin Page</button>
 </div>
 
-<button  *ngIf="filename === undefined" class="btn btn-primary" (click)="openPopup('large', 'You Are About To Delete all data in the spreadsheet!'); this.clearDb()" style="margin-top: 10px">
+<button  *ngIf="filename === undefined" class="btn btn-primary" (click)="openPopup2('large', 'You Are About To Delete all data in the database!'); this.clearDb()" style="margin-top: 10px">
     <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
     Clear DB
 </button>

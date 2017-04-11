@@ -17,7 +17,8 @@ export const routes: Routes = [
     { path: 'admin/exportData', component: ExportComponent},
     { path: 'admin/importData', component: ImportComponent},
     { path: 'admin/updateData' , component: UpdateComponent},
-    { path: 'bed/:gardenLocation', component: BedComponent }
+    { path: 'bed/:gardenLocation', component: BedComponent },
+
 ];
 
 export const routing: ModuleWithProviders = RouterModule.forRoot(routes);
