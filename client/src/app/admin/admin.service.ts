@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { Observable } from "rxjs";
+import {GraphData} from "./graphData";
 
 @Injectable()
 export class AdminService {
@@ -13,5 +14,9 @@ export class AdminService {
 
     getLiveUploadId(): Observable<string> {
         return this.http.request(this.url + "liveUploadId").map(res => res.json());
+    }
+
+    getGraphData(): Observable<any[][]> {
+        return this.http.request(this.url + "getData").map(res => res.json());
     }
 }

@@ -80,7 +80,7 @@ public class Server {
         // Post Data
         get("api/postData", (req, res) -> {
             res.type("application/json");
-            return plantController.postData(req.queryMap().toMap(), plantController.getLiveUploadId());
+            return plantController.postData(plantController.getLiveUploadId());
         });
 
         //Get a plant
@@ -88,6 +88,11 @@ public class Server {
             res.type("application/json");
             String id = req.params("plantID");
             return plantController.getPlantByPlantID(id, plantController.getLiveUploadId());
+        });
+
+        get("api/getData", (req, res) -> {
+            res.type("application/json");
+            return plantController.getLikeDataForAllPlants(plantController.getLiveUploadId());
         });
 
         //Get feedback counts for a plant
@@ -179,6 +184,7 @@ public class Server {
 
                 String id = ExcelParser.getAvailableUploadId();
                 parser.parseExcel(id);
+                plantController.postData(id);
 
                 return JSON.serialize(id);
 

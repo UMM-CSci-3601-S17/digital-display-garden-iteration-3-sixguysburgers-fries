@@ -1,5 +1,7 @@
 package umm3601.digitalDisplayGarden;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.mongodb.MongoClient;
 import com.mongodb.client.*;
 import com.mongodb.client.model.Aggregates;
@@ -52,16 +54,13 @@ public class PlantController {
     }
 
     public String getLiveUploadId() {
-        try
-        {
+        try {
             FindIterable<Document> findIterable = configCollection.find(exists("liveUploadId"));
             Iterator<Document> iterator = findIterable.iterator();
             Document doc = iterator.next();
 
             return doc.getString("liveUploadId");
-        }
-        catch(Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
             System.err.println(" [hint] Database might be empty? Couldn't getLiveUploadId");
             throw e;
@@ -74,48 +73,47 @@ public class PlantController {
         filterDoc.append("uploadId", uploadId);
 
         if (queryParams.containsKey("gardenLocation")) {
-            String location =(queryParams.get("gardenLocation")[0]);
+            String location = (queryParams.get("gardenLocation")[0]);
             filterDoc = filterDoc.append("gardenLocation", location);
         }
 
 
         if (queryParams.containsKey("commonName")) {
-            String commonName =(queryParams.get("commonName")[0]);
+            String commonName = (queryParams.get("commonName")[0]);
             filterDoc = filterDoc.append("commonName", commonName);
         }
 
         FindIterable<Document> matchingPlants = plantCollection.find(filterDoc);
 
 
-
         return JSON.serialize(matchingPlants);
     }
-    public String postData(Map<String, String[]> queryParams, String uploadId){
+
+    public String postData(String uploadId) {
         Document filterDoc = new Document();
         filterDoc.append("uploadId", uploadId);
 
         FindIterable matchingPlants = plantCollection.find(filterDoc);
 
         Iterator iterator = matchingPlants.iterator();
+        graphInfoCollection.drop();
 
-        while(iterator.hasNext()){
+        while (iterator.hasNext()) {
             Document result = (Document) iterator.next();
             int total = 0;
             int likes = 0;
             int dislikes = 0;
             Document out = new Document();
 
-            String name =(String) result.get("cultivar");
+            String name = (String) result.get("cultivar");
             List<Document> ratings = (List<Document>) ((Document) result.get("metadata")).get("ratings");
             int view = (int) ((Document) result.get("metadata")).get("pageViews");
             String id = (String) result.get("id");
-            for(Document rating : ratings)
-            {
-                if(rating.get("like").equals(true)) {
+            for (Document rating : ratings) {
+                if (rating.get("like").equals(true)) {
                     total++;
                     likes++;
-                }
-                else if(rating.get("like").equals(false)) {
+                } else if (rating.get("like").equals(false)) {
                     total--;
                     dislikes++;
                 }
@@ -125,7 +123,7 @@ public class PlantController {
             out.append("rating", total);
             out.append("pageViews", view);
             out.append("likes", likes);
-            out.append("dislikes",dislikes);
+            out.append("dislikes", dislikes);
             out.append("id", id);
 
             graphInfoCollection.insertOne(out);
@@ -136,28 +134,82 @@ public class PlantController {
         return "posted";
     }
 
+    public String getLikeDataForAllPlants(String uploadId){
+        Object[][] dataTable = new Object[(int) graphInfoCollection.count() + 1][2];
+
+        dataTable[0][0] = "Cultivar";
+        dataTable[0][1] = "Total Likes";
+        int counter = 1;
+        FindIterable<Document> allData = graphInfoCollection.find();
+        Iterator iterator = allData.iterator();
+
+        while(iterator.hasNext()){
+            Document current = (Document) iterator.next();
+            dataTable[counter][0] = current.get("cultivar");
+            dataTable[counter][1] = current.get("rating");
+            counter++;
+        }
+
+        System.out.println(makeJSON(dataTable));
+        return makeJSON(dataTable);
+    }
+
+    //taken from revolverenguardia
+    public String makeJSON(Object[][] in) { //TODO write a test for this
+        JsonArray outerArray = new JsonArray();
+        for (int i = 0; i < in.length; i++) {
+            JsonArray innerArray = new JsonArray();
+            for (int j = 0; j < in[i].length; j++) {
+                Object a = in[i][j];
+                Class objectClass = a.getClass();
+                if (objectClass == String.class) {
+                    innerArray.add(in[i][j].toString());
+                } else if (Number.class.isAssignableFrom(objectClass)) {
+                    innerArray.add((Number) in[i][j]);
+                } else if (objectClass == JsonElement.class) {
+                    innerArray.add((JsonElement) in[i][j]);
+                } else {
+                    throw new RuntimeException("WHAT ARE YOU");
+                }
+            }
+
+            outerArray.add(innerArray);
+        }
+        return outerArray.toString();
+    }
+
+
+    public String getGraphData(Map<String, String[]> queryParams, String uploadId) {
+        Document filter = new Document();
+        filter.append("uploadId", uploadId);
+
+        FindIterable<Document> matchingData = graphInfoCollection.find(filter);
+
+        return JSON.serialize(matchingData);
+    }
+
 
     /**
      * Takes a String representing an ID number of a plant
      * and when the ID is found in the database returns a JSON document
      * as a String of the following form
-     *
+     * <p>
      * <code>
      * {
-     *  "plantID"        : String,
-     *  "commonName" : String,
-     *  "cultivar"   : String
+     * "plantID"        : String,
+     * "commonName" : String,
+     * "cultivar"   : String
      * }
      * </code>
-     *
+     * <p>
      * If the ID is invalid or not found, the following JSON value is
      * returned
-     *
+     * <p>
      * <code>
-     *  null
+     * null
      * </code>
      *
-     * @param plantID an ID number of a plant in the DB
+     * @param plantID  an ID number of a plant in the DB
      * @param uploadID Dataset to find the plant
      * @return a string representation of a JSON value
      */
@@ -190,16 +242,14 @@ public class PlantController {
     }
 
     /**
-     *
-     * @param plantID The plant to get feedback of
+     * @param plantID  The plant to get feedback of
      * @param uploadID Dataset to find the plant
-     *
      * @return JSON for the number of comments, likes, and dislikes
      * Of the form:All
      * {
-     *     commentCount: number
-     *     likeCount: number
-     *     dislikeCount: number
+     * commentCount: number
+     * likeCount: number
+     * dislikeCount: number
      * }
      */
 
@@ -218,18 +268,17 @@ public class PlantController {
         FindIterable doc = plantCollection.find(new Document().append("id", plantID).append("uploadId", uploadID));
 
         Iterator iterator = doc.iterator();
-        if(iterator.hasNext()) {
+        if (iterator.hasNext()) {
             Document result = (Document) iterator.next();
 
             //Get metadata.rating array
             List<Document> ratings = (List<Document>) ((Document) result.get("metadata")).get("ratings");
 
             //Loop through all of the entries within the array, counting like=true(like) and like=false(dislike)
-            for(Document rating : ratings)
-            {
-                if(rating.get("like").equals(true))
+            for (Document rating : ratings) {
+                if (rating.get("like").equals(true))
                     likes++;
-                else if(rating.get("like").equals(false))
+                else if (rating.get("like").equals(false))
                     dislikes++;
             }
         }
@@ -241,7 +290,7 @@ public class PlantController {
         return JSON.serialize(out);
     }
 
-    public String getGardenLocationsAsJson(String uploadID){
+    public String getGardenLocationsAsJson(String uploadID) {
         AggregateIterable<Document> documents
                 = plantCollection.aggregate(
                 Arrays.asList(
@@ -252,13 +301,12 @@ public class PlantController {
         return JSON.serialize(documents);
     }
 
-    public String[] getGardenLocations(String uploadID){
+    public String[] getGardenLocations(String uploadID) {
         Document filter = new Document();
         filter.append("uploadId", uploadID);
-        DistinctIterable<String>  bedIterator = plantCollection.distinct("gardenLocation", filter, String.class);
+        DistinctIterable<String> bedIterator = plantCollection.distinct("gardenLocation", filter, String.class);
         List<String> beds = new ArrayList<String>();
-        for(String s : bedIterator)
-        {
+        for (String s : bedIterator) {
             beds.add(s);
         }
         return beds.toArray(new String[beds.size()]);
@@ -268,14 +316,15 @@ public class PlantController {
      * Accepts string representation of JSON object containing
      * at least the following.
      * <code>
-     *     {
-     *         plantId: String,
-     *         comment: String
-     *     }
+     * {
+     * plantId: String,
+     * comment: String
+     * }
      * </code>
      * If either of the keys are missing or the types of the values are
      * wrong, false is returned.
-     * @param json string representation of JSON object
+     *
+     * @param json     string representation of JSON object
      * @param uploadID Dataset to find the plant
      * @return true iff the comment was successfully submitted
      */
@@ -294,7 +343,7 @@ public class PlantController {
 
                 Iterator<Document> iterator = jsonPlant.iterator();
 
-                if(iterator.hasNext()){
+                if (iterator.hasNext()) {
                     toInsert.put("commentOnPlant", iterator.next().getString("id"));
                 } else {
                     return false;
@@ -314,43 +363,43 @@ public class PlantController {
 
             commentCollection.insertOne(toInsert);
 
-        } catch (BsonInvalidOperationException e){
+        } catch (BsonInvalidOperationException e) {
             e.printStackTrace();
             return false;
-        } catch (org.bson.json.JsonParseException e){
+        } catch (org.bson.json.JsonParseException e) {
             return false;
-        } catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             return false;
         }
 
         return true;
     }
 
-    public void writeComments(OutputStream outputStream, String uploadId) throws IOException{
+    public void writeComments(OutputStream outputStream, String uploadId) throws IOException {
 
-          FindIterable iter = commentCollection.find(
-                   and(
-                           exists("commentOnPlant"),
-                           eq("uploadId", uploadId)
-                   ));
-           Iterator iterator = iter.iterator();
+        FindIterable iter = commentCollection.find(
+                and(
+                        exists("commentOnPlant"),
+                        eq("uploadId", uploadId)
+                ));
+        Iterator iterator = iter.iterator();
 
-           CommentWriter commentWriter = new CommentWriter(outputStream);
+        CommentWriter commentWriter = new CommentWriter(outputStream);
 
-           while (iterator.hasNext()) {
-               Document comment = (Document) iterator.next();
-               commentWriter.writeComment(comment.getString("commentOnPlant"),
-                       comment.getString("comment"),
-                       ((ObjectId) comment.get("_id")).getDate());
-           }
-           commentWriter.complete();
+        while (iterator.hasNext()) {
+            Document comment = (Document) iterator.next();
+            commentWriter.writeComment(comment.getString("commentOnPlant"),
+                    comment.getString("comment"),
+                    ((ObjectId) comment.get("_id")).getDate());
+        }
+        commentWriter.complete();
     }
 
     /**
      * Adds a like or dislike to the specified plant.
      *
-     * @param id a hexstring specifiying the oid
-     * @param like true if this is a like, false if this is a dislike
+     * @param id       a hexstring specifiying the oid
+     * @param like     true if this is a like, false if this is a dislike
      * @param uploadID Dataset to find the plant
      * @return true iff the operation succeeded.
      */
@@ -381,18 +430,18 @@ public class PlantController {
      * Accepts string representation of JSON object containing
      * at least the following:
      * <code>
-     *     {
-     *         id: String,
-     *         like: boolean
-     *     }
+     * {
+     * id: String,
+     * like: boolean
+     * }
      * </code>
      *
-     * @param json string representation of a JSON object
+     * @param json     string representation of a JSON object
      * @param uploadID Dataset to find the plant
      * @return true iff the operation succeeded.
      */
 
-    public boolean addFlowerRating(String json, String uploadID){
+    public boolean addFlowerRating(String json, String uploadID) {
         boolean like;
         String id;
 
@@ -400,22 +449,22 @@ public class PlantController {
 
             Document parsedDocument = Document.parse(json);
 
-            if(parsedDocument.containsKey("id") && parsedDocument.get("id") instanceof String){
+            if (parsedDocument.containsKey("id") && parsedDocument.get("id") instanceof String) {
                 id = parsedDocument.getString("id");
             } else {
                 return false;
             }
 
-            if(parsedDocument.containsKey("like") && parsedDocument.get("like") instanceof Boolean){
+            if (parsedDocument.containsKey("like") && parsedDocument.get("like") instanceof Boolean) {
                 like = parsedDocument.getBoolean("like");
             } else {
                 return false;
             }
 
-        } catch (BsonInvalidOperationException e){
+        } catch (BsonInvalidOperationException e) {
             e.printStackTrace();
             return false;
-        } catch (org.bson.json.JsonParseException e){
+        } catch (org.bson.json.JsonParseException e) {
             return false;
         }
 
@@ -423,7 +472,6 @@ public class PlantController {
     }
 
     /**
-     *
      * @return a sorted JSON array of all the distinct uploadIds in the DB
      */
     public String listUploadIds() {
@@ -434,16 +482,12 @@ public class PlantController {
                         Aggregates.sort(Sorts.ascending("_id"))
                 ));
         List<String> lst = new LinkedList<>();
-        for(Document d: documents) {
+        for (Document d : documents) {
             lst.add(d.getString("_id"));
         }
         return JSON.serialize(lst);
 //        return JSON.serialize(plantCollection.distinct("uploadId","".getClass()));
     }
-
-
-
-
 
 
     /**
@@ -453,7 +497,7 @@ public class PlantController {
      * whether the field was found.
      *
      * @param plantID a ID number of a plant in the DB
-     * @param field a field to be incremented in the metadata object of the plant
+     * @param field   a field to be incremented in the metadata object of the plant
      * @return true if a plant was found
      * @throws com.mongodb.MongoCommandException when the id is valid and the field is empty
      */
@@ -466,6 +510,7 @@ public class PlantController {
 
         return null != plantCollection.findOneAndUpdate(searchDocument, updateDocument);
     }
+
     public boolean addVisit(String plantID) {
 
         Document filterDoc = new Document();

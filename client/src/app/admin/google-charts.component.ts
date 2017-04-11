@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import { Ng2GoogleChartsModule } from 'ng2-google-charts';
+import {Ng2GoogleChartsModule} from 'ng2-google-charts';
 import {AdminService} from "./admin.service";
 import {Observable} from "rxjs";
+import {GraphData} from "./graphData";
 
 @Component({
     selector: 'google-charts.component',
@@ -13,16 +14,22 @@ export class GraphComponent {
 
     public text: string;
     private uploadIds: string[];
-    private stuff: Observable<string[]>;
+    private graphData: GraphData[];
+    private charData: any[][];
+
     constructor(private adminService: AdminService) {
         this.text = "Hello world!";
     }
 
 
-     ngOnInit(): void {
-     this.adminService.getUploadIds()
-     .subscribe(result => this.uploadIds = result , err => console.log(err));
-     }
+    ngOnInit(): void {
+        this.adminService.getUploadIds()
+            .subscribe(result => this.uploadIds = result, err => console.log(err));
+
+        this.adminService.getGraphData()
+            .subscribe(result => this.line_ChartData.dataTable = result, err => console.log(err));
+
+    }
 
     public line_ChartData = {
         chartType: `ColumnChart`,
@@ -34,4 +41,21 @@ export class GraphComponent {
             ['2007', 1030, 540]],
         options: {'title': 'dataAndStuff'},
     };
+
+    private createDataTableForLikes():any[][]{
+        let result: any[][] = [];
+        this.line_ChartData = Object.create(this.line_ChartData);
+
+        result.push(["Cultivar", "Total Likes"]);
+
+        for(var data of this.graphData){
+            result.push([data.cultivar, data.rating]);
+        }
+
+        return result;
+    }
+
+    public changeData(){
+        this.createDataTableForLikes();
+    }
 }
