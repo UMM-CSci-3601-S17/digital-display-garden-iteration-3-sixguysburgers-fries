@@ -41,21 +41,4 @@ export class GraphComponent {
             ['2007', 1030, 540]],
         options: {'title': 'dataAndStuff'},
     };
-
-    private createDataTableForLikes():any[][]{
-        let result: any[][] = [];
-        this.line_ChartData = Object.create(this.line_ChartData);
-
-        result.push(["Cultivar", "Total Likes"]);
-
-        for(var data of this.graphData){
-            result.push([data.cultivar, data.rating]);
-        }
-
-        return result;
-    }
-
-    public changeData(){
-        this.createDataTableForLikes();
-    }
 }

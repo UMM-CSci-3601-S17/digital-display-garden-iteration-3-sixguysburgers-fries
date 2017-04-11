@@ -19,4 +19,8 @@ export class AdminService {
     getGraphData(): Observable<any[][]> {
         return this.http.request(this.url + "getData").map(res => res.json());
     }
+
+    postGraphData(): Observable<any> {
+        return this.http.request(this.url + "postData").map(res => res.json());
+    }
 }

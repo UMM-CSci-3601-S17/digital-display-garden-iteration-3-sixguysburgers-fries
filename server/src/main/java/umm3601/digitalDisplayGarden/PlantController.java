@@ -125,6 +125,7 @@ public class PlantController {
             out.append("likes", likes);
             out.append("dislikes", dislikes);
             out.append("id", id);
+            out.append("gardenLocation", result.get("gardenLocation"));
 
             graphInfoCollection.insertOne(out);
 
@@ -134,20 +135,36 @@ public class PlantController {
         return "posted";
     }
 
-    public String getLikeDataForAllPlants(String uploadId){
-        Object[][] dataTable = new Object[(int) graphInfoCollection.count() + 1][2];
-
-        dataTable[0][0] = "Cultivar";
-        dataTable[0][1] = "Total Likes";
-        int counter = 1;
+    public String getLikeDataForAllPlants(String uploadId) {
+        ArrayList<String> beds = new ArrayList<>();
         FindIterable<Document> allData = graphInfoCollection.find();
         Iterator iterator = allData.iterator();
 
-        while(iterator.hasNext()){
+        while (iterator.hasNext()) {
             Document current = (Document) iterator.next();
-            dataTable[counter][0] = current.get("cultivar");
-            dataTable[counter][1] = current.get("rating");
-            counter++;
+            String gardenLocation = (String) current.get("gardenLocation");
+
+            if (!beds.contains((gardenLocation))) {
+                beds.add(gardenLocation);
+            }
+        }
+
+        Object[][] dataTable = new Object[beds.size() + 1][2];
+
+        dataTable[0][0] = "Bed";
+        dataTable[0][1] = "All Likes for each Bed";
+        int dataCounter = 1;
+        for (int i = 0; i < beds.size(); i++) {
+            FindIterable<Document> currentBedMembers = graphInfoCollection.find(new Document("gardenLocation", beds.get(i)));
+            iterator = currentBedMembers.iterator();
+            dataTable[dataCounter][0] = beds.get(i);
+            Integer currentRating = 0;
+            while(iterator.hasNext()){
+                Document current = (Document) iterator.next();
+                currentRating += (Integer) current.get("rating");
+            }
+            dataTable[dataCounter][1] = currentRating;
+            dataCounter++;
         }
 
         System.out.println(makeJSON(dataTable));
