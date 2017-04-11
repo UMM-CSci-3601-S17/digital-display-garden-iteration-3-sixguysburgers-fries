@@ -6,6 +6,7 @@ import {PlantComponent} from "./plants/plant.component";
 import {AdminComponent} from "./admin/admin.component";
 import {ExportComponent} from "./admin/export.component";
 import {ImportComponent} from "./admin/import.component";
+import {UpdateComponent} from "./admin/update.component";
 import {BedComponent} from "./plants/bed.component";
 import {UploadPhotoComponent} from "./admin/upload-photo.component";
 
@@ -20,6 +21,8 @@ export const routes: Routes = [
     { path: 'bed/:gardenLocation', component: BedComponent },
     { path: 'admin/uploadPhoto', component: UploadPhotoComponent },
 
+    { path: 'admin/updateData' , component: UpdateComponent},
+    { path: 'bed/:gardenLocation', component: BedComponent }
 ];
 
 export const routing: ModuleWithProviders = RouterModule.forRoot(routes);

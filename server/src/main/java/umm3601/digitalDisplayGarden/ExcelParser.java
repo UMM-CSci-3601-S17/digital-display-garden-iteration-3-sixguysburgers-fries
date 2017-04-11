@@ -1,8 +1,10 @@
 package umm3601.digitalDisplayGarden;
 
 import com.mongodb.MongoClient;
+import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.util.JSON;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
@@ -10,10 +12,7 @@ import java.io.InputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import java.util.Date;
-import java.util.Formatter;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import static com.mongodb.client.model.Filters.exists;
 import static com.mongodb.client.model.Updates.set;
@@ -29,6 +28,8 @@ public class ExcelParser {
     private String databaseName;
 
     private InputStream stream;
+
+    private static ArrayList<String> allIds = new ArrayList<>();
 
 //    public static void main(String[] args) {
 //        parseExcel();
@@ -47,6 +48,17 @@ public class ExcelParser {
         String[][] verticallyCollapsed = collapseVertically(horizontallyCollapsed);
         replaceNulls(verticallyCollapsed);
         populateDatabase(verticallyCollapsed, uploadId);
+
+    }
+
+    public void updateExcel(String uploadId) throws FileNotFoundException{
+
+        String[][] arrayRepresentation = extractFromXLSX(stream);
+
+        String[][] horizontallyCollapsed = collapseHorizontally(arrayRepresentation);
+        String[][] verticallyCollapsed = collapseVertically(horizontallyCollapsed);
+        replaceNulls(verticallyCollapsed);
+        updateDatabase(verticallyCollapsed, uploadId);
 
     }
 
@@ -224,6 +236,54 @@ public class ExcelParser {
         setLiveUploadId(uploadId);
     }
 
+
+    public void updateDatabase(String[][] cellValues, String uploadId){
+        MongoClient mongoClient = new MongoClient();
+        MongoDatabase test = mongoClient.getDatabase(databaseName);
+        MongoCollection plants = test.getCollection("plants");
+        boolean exists = false;
+
+        String[] keys = getKeys(cellValues);
+
+        for (int i = 4; i < cellValues.length; i++) {
+            Document doc = new Document();
+            for (int j = 0; j < cellValues[i].length; j++) {
+                doc.append(keys[j], cellValues[i][j]);
+            }
+
+            String id = doc.getString("id");
+
+            Document filter = new Document();
+
+            filter.append("id", id);
+
+            long count = plants.count(filter);
+
+            if (count == 0) {
+                if (doc.get("gardenLocation").equals("")) {
+                    continue;
+                }
+
+                // Initialize the empty metadata
+                Document metadataDoc = new Document();
+                metadataDoc.append("pageViews", 0);
+                metadataDoc.append("visits", new BsonArray());
+                metadataDoc.append("ratings", new BsonArray());
+
+                doc.append("metadata", metadataDoc);
+                doc.append("uploadId", uploadId);
+                plants.insertOne(doc);
+            }else{
+                plants.findOneAndUpdate(filter,new Document("$set", new Document("uploadId", uploadId)));
+            }
+        }
+
+            plants.updateMany(new Document("uploadId", allIds.get(allIds.size() - 2)), new Document("$set", new Document("uploadId", uploadId)));
+
+//        plants.updateMany(new Document(), new Document("uploadId", uploadId));
+        setLiveUploadId(uploadId);
+    }
+
     /*
     ------------------------------- UTILITIES -----------------------------------
      */
@@ -286,9 +346,9 @@ public class ExcelParser {
         int seconds = dt.getSecondOfMinute();
 
         formatter.format("%d-%02d-%02d %02d:%02d:%02d", year, month, day, hour, minute, seconds);
+
+        allIds.add(sb.toString());
         return sb.toString();
-
     }
-
 
 }

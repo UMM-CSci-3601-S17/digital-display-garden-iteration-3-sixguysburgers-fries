@@ -182,6 +182,31 @@ public class Server {
             }
 
         });
+        post("api/update", (req, res) -> {
+
+            res.type("application/json");
+            try {
+
+                MultipartConfigElement multipartConfigElement = new MultipartConfigElement(excelTempDir);
+                req.raw().setAttribute("org.eclipse.jetty.multipartConfig", multipartConfigElement);
+
+                String fileName = Long.valueOf(System.currentTimeMillis()).toString();
+                Part part = req.raw().getPart("file[]");
+
+                ExcelParser parser = new ExcelParser(part.getInputStream(), databaseName);
+
+                String id = ExcelParser.getAvailableUploadId();
+                parser.updateExcel(id);
+
+                return JSON.serialize(id);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                throw e;
+            }
+
+        });
+
 
 
 
