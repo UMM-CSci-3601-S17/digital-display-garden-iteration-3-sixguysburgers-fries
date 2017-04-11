@@ -16,7 +16,6 @@ export class UploadPhotoComponent implements OnInit {
     uploadAttempted:boolean = false;
 
     handleUpload(){
-        console.log("this.iu.upload() = " + this.iu);
         this.iu.upload().subscribe(
             response => {
                 this.filename = response.json();
