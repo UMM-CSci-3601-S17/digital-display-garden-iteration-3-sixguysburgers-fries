@@ -39,6 +39,6 @@ export class GraphComponent {
             ['2005', 1170, 460],
             ['2006', 660, 1120],
             ['2007', 1030, 540]],
-        options: {'title': 'dataAndStuff'},
+        options: {'title': 'Likes per Bed'},
     };
 }
