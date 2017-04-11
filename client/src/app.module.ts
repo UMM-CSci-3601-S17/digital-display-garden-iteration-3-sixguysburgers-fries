@@ -27,8 +27,9 @@ import {UpdateComponent} from "./app/admin/update.component";
         HttpModule,
         JsonpModule,
         routing,
+        routing,
         FormsModule,
-        PipeModule
+        PipeModule,
     ],
     declarations: [
         AppComponent,

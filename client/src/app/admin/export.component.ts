@@ -13,7 +13,7 @@ export class ExportComponent implements OnInit {
 
     private uploadIds: string[];
     private liveUploadId: string;
-    private eliminateDb: String;
+    private eliminateDb: string;
 
     constructor(private adminService: AdminService) {
 
@@ -24,7 +24,5 @@ export class ExportComponent implements OnInit {
             .subscribe(result => this.uploadIds = result, err => console.log(err));
         this.adminService.getLiveUploadId()
             .subscribe(result => this.liveUploadId = result, err => console.log(err));
-        this.adminService.destroyDb()
-            .subscribe(result => this.eliminateDb = result, err => console.log(err));
     }
 }

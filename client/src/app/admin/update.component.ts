@@ -1,5 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import { AdminService } from './admin.service';
+//import { NguiMessagePopupComponent, NguiPopupComponent} from '@ngui/popup';
 
 
 @Component({
@@ -23,13 +24,14 @@ export class UpdateComponent implements OnInit {
             err => {
                 this.uploadAttempted = true;
             }
+
         );
     }
 
     fName:string;
-    clearAttempted:boolean = false;
+    clearAttempted;boolean = false;
 
-    clearDb(){
+    clearDb() {
         this.fu.clear().subscribe(
             response => {
                 this.fName = response.json();
@@ -41,7 +43,45 @@ export class UpdateComponent implements OnInit {
         );
     }
 
+
+
+
+    // // https://github.com/ng2-ui/popup/blob/master/app/app.component.ts
+    // @ViewChild(NguiPopupComponent) popup: NguiPopupComponent;
+    // message: string;
+    //
+    // constructor() {}
+    //
+    // openPopup(size, title) {
+    //     //noinspection TypeScriptUnresolvedFunction
+    //     this.popup.open(NguiMessagePopupComponent, {
+    //         classNames: size,
+    //         title: title,
+    //         message: "This is message given using popup.open()",
+    //         buttons: {
+    //             OK: () => {
+    //                 this.message = "Ok button is pressed";
+    //             },
+    //             CANCEL: () => {
+    //                 this.message = "Cancel button is pressed";
+    //                 //noinspection TypeScriptUnresolvedFunction
+    //                 this.popup.close();
+    //             }
+    //         }
+    //     });
+    // }
+    //
+    // openCustomPopup() {
+    //     //noinspection TypeScriptUnresolvedFunction
+    //     this.popup.open(CustomPopupComponent, {
+    //         classNames: 'custom',
+    //         closeButton: false,
+    //     });
+    // }
+
+
     ngOnInit(): void {
+
 
     }
 }
