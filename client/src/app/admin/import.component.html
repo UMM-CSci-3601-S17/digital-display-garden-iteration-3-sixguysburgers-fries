@@ -23,5 +23,9 @@
     <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
     Clear DB
 </button>
+<div *ngIf="clearAttempted === 'good'">Clear Successful</div>
+<div *ngIf="clearAttempted === 'bad'">Clear Failed</div>
+
+
 
 <ngui-popup #popup></ngui-popup>

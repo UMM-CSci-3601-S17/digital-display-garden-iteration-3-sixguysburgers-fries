@@ -1,6 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import { AdminService } from './admin.service';
 import { NguiMessagePopupComponent, NguiPopupComponent} from '@ngui/popup';
+import {Data} from "@angular/router";
 
 
 @Component({
@@ -33,20 +34,20 @@ export class UpdateComponent implements OnInit {
     }
 
 
-    clearAttempted;
-    boolean = false;
+    clearAttempted:string = "";
 
     clearDb() {
         if (this.okConfirmation === "deleteConfirm") {
             this.fu.clear().subscribe(
                 response => {
-                    this.clearAttempted = true;
+                    this.clearAttempted = "good";
                 },
                 err => {
-                    this.clearAttempted = true;
+                    this.clearAttempted = "bad";
                 }
             );
     }
+        this.clearAttempted = "";
 }
 
 
@@ -103,7 +104,6 @@ export class UpdateComponent implements OnInit {
             }
         });
     }
-
 
 
     ngOnInit(): void {

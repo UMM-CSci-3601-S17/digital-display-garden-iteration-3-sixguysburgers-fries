@@ -32,17 +32,21 @@ export class ImportComponent implements OnInit {
         }
     }
 
-    clearAttempted;boolean = false;
+
+    clearAttempted:string = "";
 
     clearDb() {
-        this.fu.clear().subscribe(
-            response => {
-                this.clearAttempted = true;
-            },
-            err => {
-                this.clearAttempted = true;
-            }
-        );
+        if (this.okConfirmation === "deleteConfirm") {
+            this.fu.clear().subscribe(
+                response => {
+                    this.clearAttempted = "good";
+                },
+                err => {
+                    this.clearAttempted = "bad";
+                }
+            );
+        }
+        this.clearAttempted = "";
     }
 
 
