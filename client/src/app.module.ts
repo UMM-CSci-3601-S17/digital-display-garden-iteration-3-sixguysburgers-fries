@@ -20,8 +20,8 @@ import {FileUploadComponent} from "./app/admin/file-upload.component";
 import {UpdateComponent} from "./app/admin/update.component";
 import {UploadPhotoComponent} from "./app/admin/upload-photo.component";
 
-
-
+import {GraphComponent} from "./app/admin/google-charts.component";
+import { Ng2GoogleChartsModule } from 'ng2-google-charts';
 
 @NgModule({
     imports: [
@@ -30,7 +30,8 @@ import {UploadPhotoComponent} from "./app/admin/upload-photo.component";
         JsonpModule,
         routing,
         FormsModule,
-        PipeModule
+        PipeModule,
+        Ng2GoogleChartsModule,
     ],
     declarations: [
         AppComponent,
@@ -43,8 +44,8 @@ import {UploadPhotoComponent} from "./app/admin/upload-photo.component";
         FileUploadComponent,
         BedComponent,
         UploadPhotoComponent,
-        BedComponent,
-        UpdateComponent
+        UpdateComponent,
+        GraphComponent,
 
     ],
     providers: [ PlantListService, AdminService ],
