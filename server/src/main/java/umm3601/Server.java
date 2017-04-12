@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Random;
 
 import static spark.Spark.*;
 
@@ -33,7 +34,7 @@ public class Server {
 
     private static String excelTempDir = "/tmp/digital-display-garden";
 
-    private static String imageDir = "..../images";
+    private static String imageDir = "./server/src/main/java/umm3601/images";
 
     public static void main(String[] args) throws IOException {
 
@@ -203,9 +204,10 @@ public class Server {
                 ImageHandler handler = new ImageHandler(part.getInputStream());
                 Image img = handler.extractImage();
 
+                Random rand = new Random();
                 File newDir = new File(imageDir);
                 newDir.mkdirs();
-                File theNewDir = new File(imageDir + "/" + "lololol");
+                File theNewDir = new File(imageDir + "/" + rand.nextInt(9999999));
                 theNewDir.mkdirs();
                 try {
                     ImageIO.write((RenderedImage)img,"png", theNewDir);
