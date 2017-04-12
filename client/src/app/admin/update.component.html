@@ -1,6 +1,6 @@
 <navbar-component></navbar-component>
 
-<h2>Upload Spreadsheet</h2>
+<h2>Update Spreadsheet</h2>
 
 <file-upload #fu (change)="filename = undefined; uploadAttempted = false" [multiple]="false">-</file-upload>
 
@@ -17,7 +17,7 @@
     <button  [routerLink]="['/admin']" class="btn btn-primary" style="float: right">Back to Admin Page</button>
 </div>
 
-<button  *ngIf="filename === undefined" class="btn btn-primary" (click)="this.clearDb()" style="margin-top: 10px">
+<button  *ngIf="filename === undefined" class="btn btn-primary" (click)="openPopup2('large', 'You Are About To Delete all data in the database!'); this.clearDb()" style="margin-top: 10px">
     <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
      Clear DB
 </button>

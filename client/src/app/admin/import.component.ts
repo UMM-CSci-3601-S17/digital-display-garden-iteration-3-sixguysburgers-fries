@@ -54,6 +54,7 @@ export class ImportComponent implements OnInit {
 
     constructor() {}
 
+
     openPopup(size, title) {
         //noinspection TypeScriptUnresolvedFunction
         this.popup.open(NguiMessagePopupComponent, {
@@ -65,6 +66,7 @@ export class ImportComponent implements OnInit {
                     this.okConfirmation = "ok";
                     this.message = "Ok button is pressed";
                     this.popup.close();
+                    this.handleUpload();
                 },
                 CANCEL: () => {
                     this.message = "Cancel button is pressed";
