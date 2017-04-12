@@ -13,6 +13,7 @@ import org.bson.types.ObjectId;
 
 import org.bson.conversions.Bson;
 
+import javax.print.Doc;
 import java.io.OutputStream;
 import java.util.Iterator;
 
@@ -171,6 +172,31 @@ public class PlantController {
             dataCounter++;
         }
 
+        System.out.println(makeJSON(dataTable));
+        return makeJSON(dataTable);
+    }
+
+    public String getDataForOneBed(String uploadid, String gardenLocation){
+        FindIterable<Document> matchingInfo = graphInfoCollection.find(new Document("gardenLocation", gardenLocation));
+        Iterator iterator = matchingInfo.iterator();
+        ArrayList<Document> info = new ArrayList<>();
+
+        while(iterator.hasNext()){
+            Document current = (Document) iterator.next();
+            info.add(current);
+        }
+
+        Object[][] dataTable = new Object[info.size() + 1][3];
+        dataTable[0][0] = "Cultivar";
+        dataTable[0][1] = "Rating";
+        dataTable[0][2] = "Visits";
+        int dataCounter = 1;
+        for(int i = 0; i < info.size(); i++){
+            dataTable[dataCounter][0] = info.get(i).get("cultivar");
+            dataTable[dataCounter][1] = info.get(i).get("rating");
+            dataTable[dataCounter][2] = info.get(i).get("pageViews");
+            dataCounter++;
+        }
         System.out.println(makeJSON(dataTable));
         return makeJSON(dataTable);
     }

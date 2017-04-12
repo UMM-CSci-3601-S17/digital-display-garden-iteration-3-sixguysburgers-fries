@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { Observable } from "rxjs";
-import {GraphData} from "./graphData";
+import {Plant} from "../plants/plant";
 
 @Injectable()
 export class AdminService {
@@ -22,5 +22,13 @@ export class AdminService {
 
     postGraphData(): Observable<any> {
         return this.http.request(this.url + "postData").map(res => res.json());
+    }
+
+    getGardenLocations(): Observable<Plant[]> {
+        return this.http.request(API_URL + "/gardenLocations").map(res => res.json());
+    }
+
+    getInfoForOneBed(bed: string): Observable<any[][]> {
+        return this.http.request(API_URL + "/getBedData/" + bed).map(res => res.json());
     }
 }

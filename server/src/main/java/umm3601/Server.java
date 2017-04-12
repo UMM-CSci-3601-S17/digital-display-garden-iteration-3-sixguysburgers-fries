@@ -95,11 +95,17 @@ public class Server {
             return plantController.getLikeDataForAllPlants(plantController.getLiveUploadId());
         });
 
+        get("api/getBedData/:location", (req, res) -> {
+            res.type("application/json");
+            String location = req.params("location");
+            return plantController.getDataForOneBed(plantController.getLiveUploadId(), location);
+        });
+
         //Get feedback counts for a plant
         get("api/plants/:plantID/counts", (req, res) -> {
             res.type("application/json");
             String id = req.params("plantID");
-            return plantController.getFeedbackForPlantByPlantID(id, plantController.getLiveUploadId());
+            return plantController.getDataForOneBed(plantController.getLiveUploadId(), id);
         });
 
         //List all Beds
