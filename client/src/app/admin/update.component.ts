@@ -10,32 +10,34 @@ import { NguiMessagePopupComponent, NguiPopupComponent} from '@ngui/popup';
 
 export class UpdateComponent implements OnInit {
 
-    okConfirmation:string = "no";
+    okConfirmation: string = "no";
 
     @ViewChild('fu') fu;
 
-    filename:string;
-    uploadAttempted:boolean = false;
+    filename: string;
+    uploadAttempted: boolean = false;
 
-        handleUpload() {
-            if (this.okConfirmation ==="ok") {
-                this.fu.update().subscribe(
-                    response => {
-                        this.filename = response.json();
-                        this.uploadAttempted = true;
-                        this.okConfirmation ="no";
-                    },
-                    err => {
-                        this.uploadAttempted = true;
-                    }
-                );
-            }
+    handleUpload() {
+        if (this.okConfirmation === "ok") {
+            this.fu.update().subscribe(
+                response => {
+                    this.filename = response.json();
+                    this.uploadAttempted = true;
+                    this.okConfirmation = "no";
+                },
+                err => {
+                    this.uploadAttempted = true;
+                }
+            );
         }
+    }
 
 
-    clearAttempted;boolean = false;
+    clearAttempted;
+    boolean = false;
 
     clearDb() {
+        if (this.okConfirmation === "deleteConfirm") {
             this.fu.clear().subscribe(
                 response => {
                     this.clearAttempted = true;
@@ -44,7 +46,8 @@ export class UpdateComponent implements OnInit {
                     this.clearAttempted = true;
                 }
             );
-        }
+    }
+}
 
 
 
@@ -89,7 +92,7 @@ export class UpdateComponent implements OnInit {
                     this.okConfirmation = "deleteConfirm";
                     this.message = "Ok button is pressed";
                     this.popup.close();
-                    this.handleUpload();
+                    this.clearDb();
                 },
                 CANCEL: () => {
                     this.message = "Cancel button is pressed";

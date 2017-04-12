@@ -5,7 +5,7 @@
 <file-upload #fu (change)="filename = undefined; uploadAttempted = false" [multiple]="false">-</file-upload>
 
 
-<button *ngIf="filename === undefined" class="btn btn-primary" (click)="openPopup('large', 'You Are About To Upload A New File'); this.handleUpload()" style="margin-top: 10px">
+<button  *ngIf="filename === undefined" class="btn btn-primary" (click)="openPopup('large', 'You Are About To Upload A New File'); this.handleUpload()" style="margin-top: 10px">
     <span class="glyphicon glyphicon-upload" aria-hidden="true"></span>
     Import
 </button>
@@ -15,10 +15,10 @@
 <div *ngIf="filename === undefined && uploadAttempted === true">File upload failed.</div>
 
 <div>
-<button  [routerLink]="['/admin']" class="btn btn-primary" style="float: right">Back to Admin Page</button>
+    <button  [routerLink]="['/admin']" class="btn btn-primary" style="float: right">Back to Admin Page</button>
 </div>
 
-<button  *ngIf="filename === undefined" class="btn btn-primary" (click)="openPopup2('large', 'You Are About To Delete all data in the database!'); this.clearDb()" style="margin-top: 10px">
+<button  *ngIf="filename === undefined" class="btn btn-primary" (click)="openPopup2('large', 'You Are About To Delete all data in the database!')" style="margin-top: 10px">
     <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
     Clear DB
 </button>
