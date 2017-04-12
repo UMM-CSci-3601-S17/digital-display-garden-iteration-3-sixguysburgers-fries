@@ -6,6 +6,8 @@ import com.mongodb.util.JSON;
 import umm3601.digitalDisplayGarden.ImageHandler;
 import umm3601.digitalDisplayGarden.PlantController;
 
+import java.awt.*;
+import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -18,6 +20,7 @@ import static spark.Spark.*;
 import umm3601.digitalDisplayGarden.ExcelParser;
 import umm3601.digitalDisplayGarden.QRCodes;
 
+import javax.imageio.ImageIO;
 import javax.servlet.MultipartConfigElement;
 import javax.servlet.http.Part;
 
@@ -30,7 +33,7 @@ public class Server {
 
     private static String excelTempDir = "/tmp/digital-display-garden";
 
-    private static String imageDir = "/images";
+    private static String imageDir = "..../images";
 
     public static void main(String[] args) throws IOException {
 
@@ -198,8 +201,22 @@ public class Server {
                 Part part = req.raw().getPart("file[]");
 
                 ImageHandler handler = new ImageHandler(part.getInputStream());
+                Image img = handler.extractImage();
 
-                return null;
+                File newDir = new File(imageDir);
+                newDir.mkdirs();
+                File theNewDir = new File(imageDir + "/" + "lololol");
+                theNewDir.mkdirs();
+                try {
+                    ImageIO.write((RenderedImage)img,"png", theNewDir);
+
+                } catch (IOException e) {
+
+                }
+
+                String id = ExcelParser.getAvailableUploadId();
+
+                return JSON.serialize(id);
             } catch (Exception e) {
                 e.printStackTrace();
                 throw e;
