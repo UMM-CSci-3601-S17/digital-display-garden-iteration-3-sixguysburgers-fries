@@ -26,6 +26,8 @@ export class FileUploadComponent {
         }
     }
 
+
+
     update() {
         let inputEl: HTMLInputElement = this.inputEl.nativeElement;
         let fileCount: number = inputEl.files.length;

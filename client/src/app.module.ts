@@ -19,8 +19,8 @@ import {ImportComponent} from "./app/admin/import.component";
 import {FileUploadComponent} from "./app/admin/file-upload.component";
 import {UpdateComponent} from "./app/admin/update.component";
 import { NguiPopupModule } from '@ngui/popup';
-
-
+import {GraphComponent} from "./app/admin/google-charts.component";
+import { Ng2GoogleChartsModule } from 'ng2-google-charts';
 
 @NgModule({
     imports: [
@@ -28,10 +28,10 @@ import { NguiPopupModule } from '@ngui/popup';
         HttpModule,
         JsonpModule,
         routing,
-        routing,
         FormsModule,
         PipeModule,
-        NguiPopupModule
+        NguiPopupModule,
+        Ng2GoogleChartsModule,
     ],
     declarations: [
         AppComponent,
@@ -43,7 +43,8 @@ import { NguiPopupModule } from '@ngui/popup';
         ImportComponent,
         FileUploadComponent,
         BedComponent,
-        UpdateComponent
+        UpdateComponent,
+        GraphComponent,
 
     ],
     providers: [ PlantListService, AdminService ],

@@ -7,12 +7,14 @@ import { Component, OnInit } from '@angular/core';
 })
 
 export class AdminComponent implements OnInit {
-    url : string = API_URL;
-    constructor() {
+    url : String = API_URL;
+    private post : string;
+    constructor(private adminService: AdminService) {
 
     }
 
     ngOnInit(): void {
-
+        this.adminService.postGraphData()
+            .subscribe(result => this.post = result, err => console.log(err));
     }
 }

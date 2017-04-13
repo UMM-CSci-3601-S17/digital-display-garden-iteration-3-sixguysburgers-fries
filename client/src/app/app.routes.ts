@@ -8,6 +8,7 @@ import {ExportComponent} from "./admin/export.component";
 import {ImportComponent} from "./admin/import.component";
 import {UpdateComponent} from "./admin/update.component";
 import {BedComponent} from "./plants/bed.component";
+import {GraphComponent} from "./admin/google-charts.component";
 
 // Route Configuration
 export const routes: Routes = [
@@ -16,6 +17,8 @@ export const routes: Routes = [
     { path: 'admin', component: AdminComponent},
     { path: 'admin/exportData', component: ExportComponent},
     { path: 'admin/importData', component: ImportComponent},
+    { path: 'bed/:gardenLocation', component: BedComponent },
+    { path: 'admin/charts', component: GraphComponent},
     { path: 'admin/updateData' , component: UpdateComponent},
     { path: 'bed/:gardenLocation', component: BedComponent },
 
