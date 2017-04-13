@@ -13,7 +13,7 @@ export class ImageUploadComponent {
 
     constructor(private http: Http) {}
 
-    upload(fileName: String) {
+    upload(fileName: String, flowerName: String) {
         console.log("this.inputEl = " + this.inputEl.nativeElement.files.item(0));
         let inputEl: HTMLInputElement = this.inputEl.nativeElement;
         let fileCount: number = inputEl.files.length;
@@ -22,7 +22,8 @@ export class ImageUploadComponent {
             for (let i = 0; i < fileCount; i++) {
                 formData.append('file[]', inputEl.files.item(i));
             }
-            formData.append('name[]', fileName);
+            formData.append('name', fileName);
+            formData.append('flower',flowerName);
             console.log("filename = " + fileName);
             return this.http.post(API_URL + "upload-photo", formData);
         }
