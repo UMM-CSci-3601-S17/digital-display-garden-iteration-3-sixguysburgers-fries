@@ -196,21 +196,25 @@ public class Server {
             res.type("application/json");
             try {
 
-                MultipartConfigElement multipartConfigElement = new MultipartConfigElement(imageDir);
+                MultipartConfigElement multipartConfigElement = new MultipartConfigElement(Server.imageDir);
                 req.raw().setAttribute("org.eclipse.jetty.multipartConfig", multipartConfigElement);
 
                 Part part = req.raw().getPart("file[]");
+                Part part0 = req.raw().getPart("name[]");
 
-                ImageHandler handler = new ImageHandler(part.getInputStream());
+
+                ImageHandler handler = new ImageHandler(part.getInputStream(), part0.getInputStream());
                 Image img = handler.extractImage();
+                String fileName = handler.extractFileName();
+
 
                 Random rand = new Random();
-                File newDir = new File(imageDir);
+                File newDir = new File(Server.imageDir);
                 newDir.mkdirs();
-                File theNewDir = new File(imageDir + "/" + rand.nextInt(9999999));
-                theNewDir.mkdirs();
+                File imageDir = new File(Server.imageDir + "/" + fileName + rand.nextInt(9999999));
+                imageDir.mkdirs();
                 try {
-                    ImageIO.write((RenderedImage)img,"png", theNewDir);
+                    ImageIO.write((RenderedImage)img,"png", imageDir);
 
                 } catch (IOException e) {
 
