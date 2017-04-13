@@ -13,16 +13,15 @@ export class UploadPhotoComponent implements OnInit {
     @ViewChild('iu') iu;
     @ViewChild('nameInput') nameInput: ElementRef;
 
-
-    inputName: string;
+    newFileName: string;
     filename:string;
     uploadAttempted:boolean = false;
 
 
     handleUpload() {
-        this.inputName = this.nameInput.nativeElement.value;
-        console.log("inputName = " + this.inputName);
-        this.iu.upload(this.nameInput).subscribe(
+        //this.newFileName = this.nameInput.nativeElement;
+        console.log("inputName = " + this.newFileName);
+        this.iu.upload(this.newFileName).subscribe(
             response => {
                 this.filename = response.json();
                 this.uploadAttempted = true;
