@@ -17,13 +17,15 @@ public class ImageHandler {
 
     private InputStream stream;
     private InputStream stream0;
+    private InputStream stream1;
     private Image image;
     private String fileName;
     private String imgFileName;
 
-    public ImageHandler(InputStream stream, InputStream stream0) {
+    public ImageHandler(InputStream stream, InputStream stream0, InputStream stream1) {
         this.stream = stream;
         this.stream0 = stream0;
+        this.stream1 = stream1;
     }
 
     public Image extractImage() {
@@ -39,6 +41,13 @@ public class ImageHandler {
 
         String toReturn = convertStreamToString(stream0);
         return toReturn;
+    }
+
+    public String extractFlowerName() {
+
+        String toReturn = convertStreamToString(stream1);
+        return toReturn;
+
     }
 
     static String convertStreamToString(java.io.InputStream is) {
