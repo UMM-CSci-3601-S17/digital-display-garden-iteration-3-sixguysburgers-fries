@@ -3,14 +3,18 @@ package umm3601;
 import spark.Route;
 import spark.utils.IOUtils;
 import com.mongodb.util.JSON;
+import umm3601.digitalDisplayGarden.ImageHandler;
 import umm3601.digitalDisplayGarden.PlantController;
 
+import java.awt.*;
+import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Random;
 import com.mongodb.BasicDBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
@@ -21,6 +25,7 @@ import static spark.Spark.*;
 import umm3601.digitalDisplayGarden.ExcelParser;
 import umm3601.digitalDisplayGarden.QRCodes;
 
+import javax.imageio.ImageIO;
 import javax.servlet.MultipartConfigElement;
 import javax.servlet.http.Part;
 
@@ -32,6 +37,8 @@ public class Server {
     public static String databaseName = "test";
 
     private static String excelTempDir = "/tmp/digital-display-garden";
+
+    private static String imageDir = "./src/main/java/umm3601/images";
 
     public static void main(String[] args) throws IOException {
 
@@ -59,7 +66,7 @@ public class Server {
             if (accessControlRequestMethod != null) {
                 response.header("Access-Control-Allow-Methods", accessControlRequestMethod);
             }
- 
+
             return "OK";
         });
 
@@ -195,6 +202,48 @@ public class Server {
                 String id = ExcelParser.getAvailableUploadId();
                 parser.parseExcel(id);
                 plantController.postData(id);
+                System.out.println("This is a print thingy");
+
+                return JSON.serialize(id);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                throw e;
+            }
+
+        });
+
+        post("api/upload-photo", (req, res) -> {
+
+            res.type("application/json");
+            try {
+
+                MultipartConfigElement multipartConfigElement = new MultipartConfigElement(Server.imageDir);
+                req.raw().setAttribute("org.eclipse.jetty.multipartConfig", multipartConfigElement);
+
+                Part part = req.raw().getPart("file[]");
+                Part part0 = req.raw().getPart("name");
+                Part part1 = req.raw().getPart("flower");
+
+
+                ImageHandler handler = new ImageHandler(part.getInputStream(), part0.getInputStream(), part1.getInputStream());
+                Image img = handler.extractImage();
+                String fileName = handler.extractFileName();
+                String flowerName = handler.extractFlowerName();
+
+                Random rand = new Random();
+                File newDir = new File(Server.imageDir);
+                newDir.mkdirs();
+                File imageDir = new File(Server.imageDir + "/" + flowerName + "/" + fileName + rand.nextInt(9999999));
+                imageDir.mkdirs();
+                try {
+                    ImageIO.write((RenderedImage)img,"png", imageDir);
+
+                } catch (IOException e) {
+
+                }
+
+                String id = ExcelParser.getAvailableUploadId();
 
                 return JSON.serialize(id);
 

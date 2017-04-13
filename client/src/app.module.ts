@@ -21,6 +21,11 @@ import {UpdateComponent} from "./app/admin/update.component";
 import { NguiPopupModule } from '@ngui/popup';
 import {GraphComponent} from "./app/admin/google-charts.component";
 import { Ng2GoogleChartsModule } from 'ng2-google-charts';
+import {ImageUploadComponent} from "./app/admin/image-upload.component";
+import {UploadPhotoComponent} from "./app/admin/upload-photo.component";
+
+
+
 
 @NgModule({
     imports: [
@@ -45,6 +50,9 @@ import { Ng2GoogleChartsModule } from 'ng2-google-charts';
         BedComponent,
         UpdateComponent,
         GraphComponent,
+        ImageUploadComponent,
+        BedComponent,
+        UploadPhotoComponent,
 
     ],
     providers: [ PlantListService, AdminService ],

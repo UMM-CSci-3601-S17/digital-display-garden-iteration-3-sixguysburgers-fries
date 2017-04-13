@@ -5,6 +5,7 @@ import {AdminService} from "./admin.service";
 @Component({
     selector: 'admin-component',
     templateUrl: 'admin-component.html',
+    styles: ['input.camera-launch {opacity: 0;}',],
 })
 
 export class AdminComponent implements OnInit {

@@ -19,7 +19,7 @@ export class ImportComponent implements OnInit {
 
     handleUpload() {
         if (this.okConfirmation === "ok") {
-            this.okConfirmation ="no";
+            this.okConfirmation = "no";
             this.fu.upload().subscribe(
                 response => {
                     this.filename = response.json();
