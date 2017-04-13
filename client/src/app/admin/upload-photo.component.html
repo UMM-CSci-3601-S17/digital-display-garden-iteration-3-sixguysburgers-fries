@@ -18,7 +18,13 @@
 
 <br>
 
-<input #nameInput type="text" placeholder="Name of Flower in Photo" (input)="newFileName = $event.target.value">
+<input #nameInput type="text" placeholder="Name For Your Photo" (input)="newFileName = $event.target.value">
+
+<br>
+<br>
+
+<input #flowerNameInput type="text" placeholder="Name of Flower in Photo" (input)="flowerName = $event.target.value">
+
 
 <br>
 <br>
@@ -31,6 +37,8 @@
     </button>
 
 </div>
+
+<br>
 
 <button *ngIf="filename === undefined" class="btn btn-primary" (click)="this.handleUpload()" style="margin-top: 10px">
     <span class="glyphicon glyphicon-upload" aria-hidden="true"></span>
