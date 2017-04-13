@@ -14,14 +14,14 @@ export class UploadPhotoComponent implements OnInit {
     @ViewChild('nameInput') nameInput: ElementRef;
 
     newFileName: string;
+    flowerName: string;
     filename:string;
     uploadAttempted:boolean = false;
 
 
     handleUpload() {
-        //this.newFileName = this.nameInput.nativeElement;
         console.log("inputName = " + this.newFileName);
-        this.iu.upload(this.newFileName).subscribe(
+        this.iu.upload(this.newFileName, this.flowerName).subscribe(
             response => {
                 this.filename = response.json();
                 this.uploadAttempted = true;
