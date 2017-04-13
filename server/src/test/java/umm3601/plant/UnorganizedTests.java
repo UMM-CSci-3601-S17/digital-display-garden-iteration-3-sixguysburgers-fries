@@ -5,6 +5,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.util.JSON;
 import org.bson.Document;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import umm3601.digitalDisplayGarden.PlantController;
@@ -25,6 +26,7 @@ public class UnorganizedTests {
         PopulateMockDatabase db = new PopulateMockDatabase();
         db.clearAndPopulateDBAgain();
         plantController = new PlantController(databaseName);
+        plantController.postData("second uploadId");
 
 //        plantController.setLiveUploadId(uploadId);
     }
@@ -97,4 +99,52 @@ public class UnorganizedTests {
 
         assertFalse(before.equals(after));
     }
+
+    @Test
+    public void DestroyDB() {
+        String destroyed = plantController.destroyDb();
+        assertEquals("destroyed", destroyed);
+    }
+
+    @Test
+    public void PData() {
+        String data = plantController.postData("second uploadId");
+        assertEquals("posted", data);
+    }
+
+    @Test
+    public void LikeData() {
+        String json = plantController.getLikeDataForAllPlants("second uploadId");
+        String compared = "[[\"Bed\",\"Total Likes\",\"Total Visits\"],[\"7.0\",0,0],[\"12\",0,0]]";
+
+        assertEquals(json, compared);
+    }
+
+    @Test
+    public void getDataForOneBedTest() {
+        String json = plantController.getDataForOneBed("second uploadId","7.0");
+        System.out.println(json);
+        String notExpected = "[[\"Cultivar\",\"Rating\",\"Visits\"],[\"Jolt™ Pink F1\",0,1]]";
+        String expected = "[[\"Cultivar\",\"Rating\",\"Visits\"],[\"Jolt™ Pink F1\",0,0]]";
+
+        Assert.assertNotEquals(json,notExpected);
+        assertEquals(json,expected);
+
+    }
+
+    @Test
+    public void makeJSONTest(){
+        Object[][] toInsert = new Object[2][2];
+
+        toInsert[0][0] = "wassup";
+        toInsert[0][1] = "not much";
+        toInsert[1][0] = "Shut the hell up";
+        toInsert[1][1] = 2;
+
+        String expected = "[[\"wassup\",\"not much\"],[\"Shut the hell up\",2]]";
+
+        assertEquals(expected, plantController.makeJSON(toInsert));
+
+    }
+
 }

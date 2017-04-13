@@ -1,11 +1,10 @@
 package umm3601.digitalDisplayGarden;
 
-import com.google.gson.Gson;
+
 import com.mongodb.MongoClient;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.mongodb.client.*;
-import com.mongodb.client.model.Accumulators;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Sorts;
 import com.mongodb.util.JSON;
@@ -14,9 +13,6 @@ import org.bson.Document;
 import org.bson.types.ObjectId;
 
 import org.bson.conversions.Bson;
-import org.joda.time.DateTime;
-
-import javax.print.Doc;
 import java.io.OutputStream;
 import java.util.Iterator;
 
@@ -215,7 +211,7 @@ public class PlantController {
     }
 
     //taken from revolverenguardia
-    public String makeJSON(Object[][] in) { //TODO write a test for this
+    public String makeJSON(Object[][] in) {
         JsonArray outerArray = new JsonArray();
         for (int i = 0; i < in.length; i++) {
             JsonArray innerArray = new JsonArray();
@@ -236,16 +232,6 @@ public class PlantController {
             outerArray.add(innerArray);
         }
         return outerArray.toString();
-    }
-
-
-    public String getGraphData(Map<String, String[]> queryParams, String uploadId) {
-        Document filter = new Document();
-        filter.append("uploadId", uploadId);
-
-        FindIterable<Document> matchingData = graphInfoCollection.find(filter);
-
-        return JSON.serialize(matchingData);
     }
 
 
