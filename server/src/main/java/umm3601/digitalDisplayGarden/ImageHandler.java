@@ -3,16 +3,12 @@ package umm3601.digitalDisplayGarden;
 import org.joda.time.DateTime;
 
 import javax.imageio.ImageIO;
-import java.io.File;
-import java.io.InputStream;
-import java.io.FileNotFoundException;
+import java.awt.*;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-
-import java.awt.Image;
+import java.io.InputStream;
 import java.util.Date;
 import java.util.Formatter;
+import java.util.Scanner;
 
 /**
  * Created by hamme503 on 4/6/17.
@@ -20,10 +16,14 @@ import java.util.Formatter;
 public class ImageHandler {
 
     private InputStream stream;
+    private InputStream stream0;
     private Image image;
+    private String fileName;
+    private String imgFileName;
 
-    public ImageHandler(InputStream stream) {
+    public ImageHandler(InputStream stream, InputStream stream0) {
         this.stream = stream;
+        this.stream0 = stream0;
     }
 
     public Image extractImage() {
@@ -33,6 +33,17 @@ public class ImageHandler {
         } catch (IOException e) {
         }
         return image;
+    }
+
+    public String extractFileName() {
+
+        String toReturn = convertStreamToString(stream0);
+        return toReturn;
+    }
+
+    static String convertStreamToString(java.io.InputStream is) {
+        java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
+        return s.hasNext() ? s.next() : "";
     }
 
     public static String getAvailableUploadId(){
