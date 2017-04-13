@@ -200,18 +200,19 @@ public class Server {
                 req.raw().setAttribute("org.eclipse.jetty.multipartConfig", multipartConfigElement);
 
                 Part part = req.raw().getPart("file[]");
-                Part part0 = req.raw().getPart("name[]");
+                Part part0 = req.raw().getPart("name");
+                Part part1 = req.raw().getPart("flower");
 
 
-                ImageHandler handler = new ImageHandler(part.getInputStream(), part0.getInputStream());
+                ImageHandler handler = new ImageHandler(part.getInputStream(), part0.getInputStream(), part1.getInputStream());
                 Image img = handler.extractImage();
                 String fileName = handler.extractFileName();
-
+                String flowerName = handler.extractFlowerName();
 
                 Random rand = new Random();
                 File newDir = new File(Server.imageDir);
                 newDir.mkdirs();
-                File imageDir = new File(Server.imageDir + "/" + fileName + rand.nextInt(9999999));
+                File imageDir = new File(Server.imageDir + "/" + flowerName + "/" + fileName + rand.nextInt(9999999));
                 imageDir.mkdirs();
                 try {
                     ImageIO.write((RenderedImage)img,"png", imageDir);
