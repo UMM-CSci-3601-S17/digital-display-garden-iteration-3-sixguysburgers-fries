@@ -34,7 +34,7 @@ public class Server {
 
     private static String excelTempDir = "/tmp/digital-display-garden";
 
-    private static String imageDir = "./server/src/main/java/umm3601/images";
+    private static String imageDir = "./src/main/java/umm3601/images";
 
     public static void main(String[] args) throws IOException {
 
