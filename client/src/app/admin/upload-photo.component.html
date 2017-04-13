@@ -18,9 +18,10 @@
 
 <br>
 
-<form #nameInput>
-    Name of Flower In Photo: <input type="text" name = "imgFileName">
-</form>
+<input #nameInput type="text" placeholder="Name of Flower in Photo" (input)="newFileName = $event.target.value">
+
+<br>
+<br>
 
 <div>
     <!--https://developers.google.com/web/fundamentals/native-hardware/capturing-images/-->
