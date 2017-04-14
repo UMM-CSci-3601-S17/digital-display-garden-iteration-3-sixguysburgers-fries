@@ -2,6 +2,8 @@
 <google-chart [data]="line_ChartData"></google-chart>
 <google-chart [data]="drawBasic"></google-chart>
 
-<li *ngFor="let location of locations" calss="list-group-item">
-    <button (click)="updateGraph(location._id)">Generate Graph for bed {{ location._id }}</button>
+<li *ngFor="let location of locations" class="list-group-item">
+    <button (click)="updateGraph(location._id)" class="btn btn-link btn-block">
+        <strong style="font-size:18px">Generate Graph for bed {{ location._id }}</strong>
+    </button>
 </li>
