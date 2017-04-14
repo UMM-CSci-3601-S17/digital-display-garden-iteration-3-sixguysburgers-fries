@@ -1,17 +1,43 @@
 # Digital Display Garden
 [![Build Status](https://travis-ci.org/UMM-CSci-3601-S17/digital-display-garden-iteration-3-sixguysburgers-fries.svg?branch=master)](https://travis-ci.org/UMM-CSci-3601-S17/digital-display-garden-iteration-3-sixguysburgers-fries/branches)
-Software Design S2017, Iteration 3, Team _Six Guys Burgers 'n Fries_ 
+
+Software Design Spring 2017, Iteration 3, Team [_Six Guys Burgers 'n Fries_](https://github.com/UMM-CSci-3601-S17/digital-display-garden-iteration-3-sixguysburgers-fries)
+
+Group members: Phillip, RJ, Travis, Jacob, Spencer, and Jerry
+
+
 
 This repository is a fork from [Iteration 2 , _Team Grimaldi_](https://github.com/UMM-CSci-3601-S17/digital-display-garden-iteration-2-grimaldi), who forked from [Iteration 1 , Team _Claude Arabo_](https://github.com/UMM-CSci-3601-S17/digital-display-garden-iteration-1-claudearabo).
 
 
-## Purchased Stories
+# Stories
 * Updating the Database
 * Graphical Data Representation
 * Upload and Display/Store one Image per plant.
 
+# Problems
 
-### Note, for fixing self-port locks:  
+###Updating the Database
+* No known problems
+
+### Graphical Data Representation
+* Have to click the graph update bed button twice to display information
+* When updating the database and trying to display a graph you might have to refresh the page
+* CAN ONLY VIEW ON DESKTOP!
+
+### Upload and Display/Store one Image per plant.
+* Photo storage is affected by typos
+* Photos can't accessed/view from client side
+* Photo file name does not have an extension
+* Some notification that the photo is uploading (uploading bar)
+
+
+
+### Team Motto
+When in doubt Phillip will sort it out
+
+
+## Note, for fixing self-port locks:  
 ##### Step One: Find the Process that's hoarding the port
 ##### Step Two: Kill the Process
 
