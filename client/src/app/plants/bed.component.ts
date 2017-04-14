@@ -13,7 +13,7 @@ export class BedComponent implements OnInit {
     public plants: Plant[];
     public locations: Plant[];
 
-    constructor(private plantListService: PlantListService, private route: ActivatedRoute, private router: Router) {
+    constructor(private plantListService: PlantListService, public route: ActivatedRoute, private router: Router) {
         // this.plants = this.plantListService.getPlants()
 
         //Get the bed from the params of the route
@@ -36,12 +36,12 @@ export class BedComponent implements OnInit {
             }
         );
 
-        this.plantListService.getGardenLocations().subscribe(
-            locations => this.locations = locations,
-            err => {
-                console.log(err);
-            }
-        );
+        // this.plantListService.getGardenLocations().subscribe(
+        //     locations => this.locations = locations,
+        //     err => {
+        //         console.log(err);
+        //     }
+        // );
     }
 
 
