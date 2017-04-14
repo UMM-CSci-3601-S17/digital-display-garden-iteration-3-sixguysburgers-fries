@@ -1,82 +1,102 @@
 // import { ComponentFixture, TestBed, async } from "@angular/core/testing";
-// import { User } from "./user";
-// import { UserListComponent } from "./user-list.component";
-// import { UserListService } from "./user-list.service";
+// import { Plant } from "./plant";
 // import { Observable } from "rxjs";
 // import { PipeModule } from "../../pipe.module";
+// import {PlantListComponent} from "./plant-list.component";
+// import {PlantListService} from "./plant-list.service";
 //
-// describe("User list", () => {
+// describe("Plant list", () => {
 //
-//     let userList: UserListComponent;
-//     let fixture: ComponentFixture<UserListComponent>;
+//     let plantList: PlantListComponent;
+//     let fixture: ComponentFixture<PlantListComponent>;
 //
-//     let userListServiceStub: {
-//         getUsers: () => Observable<User[]>
+//     let plantListServiceStub: {
+//         getPlants: () => Observable<Plant[]>
 //     };
 //
 //     beforeEach(() => {
 //         // stub UserService for test purposes
-//         userListServiceStub = {
-//             getUsers: () => Observable.of([
+//         plantListServiceStub = {
+//             getPlants: () => Observable.of([
+//                     {
+//                         id: "chris_id",
+//                         plantID: "483352",
+//                         plantType: "plant",
+//                         commonName: "UMM",
+//                         cultivar: "bob@this.that",
+//                         source: "tt",
+//                         gardenLocation: "Lab",
+//                         year: 0,
+//                         pageURL: "",
+//                         plantImageURLs: [""],
+//                         recognitions: [""],
+//
+//
+//         },
 //                 {
 //                     id: "chris_id",
-//                     name: "Chris",
-//                     age: 25,
-//                     company: "UMM",
-//                     email: "chris@this.that"
+//                     plantID: "483352",
+//                     plantType: "plant",
+//                     commonName: "UMM",
+//                     cultivar: "bob@this.that",
+//                     source: "tt",
+//                     gardenLocation: "Lab",
+//                     year: 0,
+//                     pageURL: "",
+//                     plantImageURLs: [""],
+//                     recognitions: [""],
 //                 },
 //                 {
-//                     id: "pat_id",
-//                     name: "Pat",
-//                     age: 37,
-//                     company: "IBM",
-//                     email: "pat@something.com"
-//                 },
-//                 {
-//                     id: "jamie_id",
-//                     name: "Jamie",
-//                     age: 37,
-//                     company: "Frogs, Inc.",
-//                     email: "jamie@frogs.com"
+//                     id: "chris_id",
+//                     plantID: "3368798",
+//                     plantType: "plant",
+//                     commonName: "UMM",
+//                     cultivar: "pizza@this.that",
+//                     source: "ss",
+//                     gardenLocation: "Library",
+//                     year: 0,
+//                     pageURL: "",
+//                     plantImageURLs: [""],
+//                     recognitions: [""],
 //                 }
 //                 ])
 //         };
 //
 //         TestBed.configureTestingModule({
 //             imports: [PipeModule],
-//             declarations: [ UserListComponent ],
+//             declarations: [ PlantListComponent ],
 //             // providers:    [ UserListService ]  // NO! Don't provide the real service!
 //             // Provide a test-double instead
-//             providers:    [ { provide: UserListService, useValue: userListServiceStub } ]
+//             providers:    [ { provide: PlantListService, useValue: plantListServiceStub } ]
 //         })
 //     });
 //
 //     beforeEach(async(() => {
 //         TestBed.compileComponents().then(() => {
-//             fixture = TestBed.createComponent(UserListComponent);
-//             userList = fixture.componentInstance;
+//             fixture = TestBed.createComponent(PlantListComponent);
+//             plantList = fixture.componentInstance;
 //             fixture.detectChanges();
 //         });
 //     }));
 //
-//     it("contains all the users", () => {
-//         expect(userList.users.length).toBe(3);
+//     it("contains all the plants", () => {
+//         expect(plantList.plants.length).toBe(3);
 //     });
 //
-//     it("contains a user named 'Chris'", () => {
-//         expect(userList.users.some((user: User) => user.name === "Chris" )).toBe(true);
-//     });
-//
-//     it("contain a user named 'Jamie'", () => {
-//         expect(userList.users.some((user: User) => user.name === "Jamie" )).toBe(true);
-//     });
-//
-//     it("doesn't contain a user named 'Santa'", () => {
-//         expect(userList.users.some((user: User) => user.name === "Santa" )).toBe(false);
-//     });
-//
-//     it("has two users that are 37 years old", () => {
-//         expect(userList.users.filter((user: User) => user.age === 37).length).toBe(2);
-//     });
+//     // it("contains a plant commonName 'To'", () => {
+//     //     expect(plantList.plants.some((plant: Plant) => plant.commonName === "To" )).toBe(true);
+//     // });
+//     //
+//     // it("contain a plant named 'Hi'", () => {
+//     //     expect(plantList.plants.some((plant: Plant) => plant.commonName === "Hi" )).toBe(true);
+//     // });
+//     //
+//     // it("doesn't contain a plant with cultivar named 'pizza@this.that'", () => {
+//     //     expect(plantList.plants.some((plant: Plant) => plant.cultivar === "pizza@this.that" )).toBe(false);
+//     // });
+//     //
+//     // it("has two plants that have source 'ss'", () => {
+//     //     expect(plantList.plants.filter((plant: Plant) => plant.source === "ss").length).toBe(2);
+//     // });
 //
 // });
