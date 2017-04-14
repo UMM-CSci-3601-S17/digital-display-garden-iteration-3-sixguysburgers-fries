@@ -180,8 +180,6 @@ public class PlantController {
             dataTable[dataCounter][2] = currentViews;
             dataCounter++;
         }
-
-        System.out.println(makeJSON(dataTable));
         return makeJSON(dataTable);
     }
 
@@ -206,7 +204,6 @@ public class PlantController {
             dataTable[dataCounter][2] = info.get(i).get("pageViews");
             dataCounter++;
         }
-        System.out.println(makeJSON(dataTable));
         return makeJSON(dataTable);
     }
 
