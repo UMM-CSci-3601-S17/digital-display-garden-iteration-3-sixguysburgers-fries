@@ -15,15 +15,13 @@ import {UploadPhotoComponent} from "./admin/upload-photo.component";
 // Route Configuration
 export const routes: Routes = [
     { path: '', component: PlantListComponent },
-    { path: 'plants/:plantID', component: PlantComponent },
+    { path: 'plants/:plantID', component: BedComponent },
     { path: 'admin', component: AdminComponent},
     { path: 'admin/exportData', component: ExportComponent},
     { path: 'admin/importData', component: ImportComponent},
     { path: 'bed/:gardenLocation', component: BedComponent },
     { path: 'admin/charts', component: GraphComponent},
     { path: 'admin/updateData' , component: UpdateComponent},
-    { path: 'bed/:gardenLocation', component: BedComponent },
-    { path: 'bed/:gardenLocation', component: BedComponent },
     { path: 'admin/uploadPhoto', component: UploadPhotoComponent },
 
 ];
