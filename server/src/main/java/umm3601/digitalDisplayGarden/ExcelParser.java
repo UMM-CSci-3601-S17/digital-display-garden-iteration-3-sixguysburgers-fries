@@ -274,11 +274,53 @@ public class ExcelParser {
                 doc.append("uploadId", uploadId);
                 plants.insertOne(doc);
             }else{
+                String commonName = doc.getString("commonName");
+                String cultivar = doc.getString("cultivar");
+                String source = doc.getString("source");
+                String seedVeg = doc.getString("SSeedVVeg");
+                String hbCW = doc.getString("HBHangBasketCContainerWWall");
+                String gardenLocation = doc.getString("gardenLocation");
+                String comments = doc.getString("Comments");
+                FindIterable<Document> plant = plants.find(filter);
+                Iterator iterator = plant.iterator();
+
+                if(iterator.hasNext()){
+                    Document current = (Document) iterator.next();
+
+                    if(!commonName.equals(current.get("commonName"))){
+                        plants.findOneAndUpdate(filter,new Document("$set", new Document("commonName", commonName)));
+                    }
+
+                    if(!cultivar.equals(current.get("cultivar"))){
+                        plants.findOneAndUpdate(filter,new Document("$set", new Document("cultivar", cultivar)));
+                    }
+
+                    if(!source.equals(current.get("source"))){
+                        plants.findOneAndUpdate(filter,new Document("$set", new Document("source", source)));
+                    }
+
+                    if(!seedVeg.equals(current.get("SSeedVVeg"))){
+                        plants.findOneAndUpdate(filter,new Document("$set", new Document("SSeedVVeg", seedVeg)));
+                    }
+
+                    if(!hbCW.equals(current.get("HBHangBasketCContainerWWall"))){
+                        plants.findOneAndUpdate(filter,new Document("$set", new Document("HBHangBasketCContainerWWall", hbCW)));
+                    }
+
+                    if(!gardenLocation.equals(current.get("gardenLocation")) && !gardenLocation.equals("")){
+                        plants.findOneAndUpdate(filter,new Document("$set", new Document("gardenLocation", gardenLocation)));
+                    }
+
+                    if(!comments.equals(current.get("Comments"))){
+                        plants.findOneAndUpdate(filter,new Document("$set", new Document("uploadId", uploadId)));
+                    }
+                }
+
                 plants.findOneAndUpdate(filter,new Document("$set", new Document("uploadId", uploadId)));
             }
         }
 
-            plants.updateMany(new Document("uploadId", allIds.get(allIds.size() - 2)), new Document("$set", new Document("uploadId", uploadId)));
+        //plants.updateMany(new Document("uploadId", allIds.get(allIds.size() - 2)), new Document("$set", new Document("uploadId", uploadId)));
 
 //        plants.updateMany(new Document(), new Document("uploadId", uploadId));
         setLiveUploadId(uploadId);
