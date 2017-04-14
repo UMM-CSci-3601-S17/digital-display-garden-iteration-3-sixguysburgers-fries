@@ -15,6 +15,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Random;
+
 import com.mongodb.BasicDBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
@@ -153,7 +154,6 @@ public class Server {
         });
 
 
-
         get("api/qrcodes", (req, res) -> {
             res.type("application/zip");
 
@@ -164,10 +164,10 @@ public class Server {
                     plantController.getGardenLocations(liveUploadID),
                     API_URL + "/bed/");
             System.err.println(zipPath);
-            if(zipPath == null)
+            if (zipPath == null)
                 return null;
 
-            res.header("Content-Disposition","attachment; filename=\"" + zipPath + "\"");
+            res.header("Content-Disposition", "attachment; filename=\"" + zipPath + "\"");
 
             //Get bytes from the file
             File zipFile = new File(zipPath);
@@ -235,9 +235,10 @@ public class Server {
                 File newDir = new File(Server.imageDir);
                 newDir.mkdirs();
                 File imageDir = new File(Server.imageDir + "/" + flowerName + "/" + fileName + rand.nextInt(9999999));
+                handler.storePath(imageDir.getPath(), flowerName);
                 imageDir.mkdirs();
                 try {
-                    ImageIO.write((RenderedImage)img,"png", imageDir);
+                    ImageIO.write((RenderedImage) img, "png", imageDir);
 
                 } catch (IOException e) {
 
@@ -253,8 +254,6 @@ public class Server {
             }
 
         });
-
-
 
         // Update an xls file
 
@@ -292,8 +291,6 @@ public class Server {
 
 
         });
-
-
 
 
         get("/*", clientRoute);

@@ -1,5 +1,11 @@
 package umm3601.digitalDisplayGarden;
 
+import com.mongodb.MongoClient;
+import com.mongodb.client.FindIterable;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import com.mongodb.util.JSON;
+import org.bson.Document;
 import org.joda.time.DateTime;
 
 import javax.imageio.ImageIO;
@@ -14,7 +20,8 @@ import java.util.Scanner;
  * Created by hamme503 on 4/6/17.
  */
 public class ImageHandler {
-
+    MongoClient mongoClient = new MongoClient(); // Defaults!
+    private final MongoCollection<Document> pathCollection;
     private InputStream stream;
     private InputStream stream0;
     private InputStream stream1;
@@ -23,9 +30,17 @@ public class ImageHandler {
     private String imgFileName;
 
     public ImageHandler(InputStream stream, InputStream stream0, InputStream stream1) {
+        MongoDatabase db = mongoClient.getDatabase("test");
+        pathCollection = db.getCollection("paths");
+
         this.stream = stream;
         this.stream0 = stream0;
         this.stream1 = stream1;
+    }
+
+    public ImageHandler(){
+        MongoDatabase db = mongoClient.getDatabase("test");
+        pathCollection = db.getCollection("paths");
     }
 
     public Image extractImage() {
@@ -35,6 +50,14 @@ public class ImageHandler {
         } catch (IOException e) {
         }
         return image;
+    }
+
+    public String storePath(String path, String flowerName){
+        Document toInsert = new Document("path", path);
+        toInsert.append("name", flowerName);
+        pathCollection.insertOne(toInsert);
+
+        return "Path added";
     }
 
     public String extractFileName() {
