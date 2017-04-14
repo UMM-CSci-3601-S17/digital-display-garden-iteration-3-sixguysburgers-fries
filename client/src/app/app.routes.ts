@@ -14,8 +14,8 @@ import {UploadPhotoComponent} from "./admin/upload-photo.component";
 
 // Route Configuration
 export const routes: Routes = [
-    { path: '', component: PlantListComponent },
-    { path: 'plants/:plantID', component: BedComponent },
+    { path: '', component: BedComponent },
+    { path: 'plants/:plantID', component: PlantComponent },
     { path: 'admin', component: AdminComponent},
     { path: 'admin/exportData', component: ExportComponent},
     { path: 'admin/importData', component: ImportComponent},
