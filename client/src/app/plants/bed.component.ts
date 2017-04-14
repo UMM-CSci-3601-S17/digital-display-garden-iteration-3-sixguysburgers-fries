@@ -36,12 +36,12 @@ export class BedComponent implements OnInit {
             }
         );
 
-        // this.plantListService.getGardenLocations().subscribe(
-        //     locations => this.locations = locations,
-        //     err => {
-        //         console.log(err);
-        //     }
-        // );
+        this.plantListService.getGardenLocations().subscribe(
+            locations => this.locations = locations,
+            err => {
+                console.log(err);
+            }
+        );
     }
 
 
