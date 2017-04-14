@@ -2,16 +2,19 @@ package umm3601.digitalDisplayGarden;
 
 
 import com.mongodb.MongoClient;
+import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.util.JSON;
+import org.bson.Document;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.InputStream;
+import java.util.regex.Pattern;
 
 import static com.mongodb.client.model.Filters.eq;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 /**
  * Created by benek020 on 3/6/17.
@@ -93,18 +96,40 @@ public class TestExcelParser {
         assertEquals(11, plants.count(eq("commonName", "Geranium")));
     }
 
+    @Test
+    public  void testUpdateDatabase() {
+        String[][] plantArray = parser.extractFromXLSX(fromFile);
+        plantArray = parser.collapseHorizontally(plantArray);
+        plantArray = parser.collapseVertically(plantArray);
+        parser.replaceNulls(plantArray);
 
+        parser.updateDatabase(plantArray,"id");
+        MongoCollection plants = testDB.getCollection("plants");
 
-    private static void printDoubleArray(String[][] input){
-        for(int i = 0; i < input.length; i++){
-            if (!(input[i] == (null))) {
-                for (int j = 0; j < input[i].length; j++) {
-                    //System.out.print(" | " + "i: " + i + " j: " + j + " value: " + input[i][j] );
-                    System.out.print(" | " + input[i][j]);
-                }
-                System.out.println();
-                System.out.println("-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
-            }
-        }
+        assertEquals(286, plants.count());
+        assertEquals(11, plants.count(eq("commonName", "Geranium")));
     }
+
+
+    @Test
+    public void getAvailableUploadId() {
+        String crrntTime = parser.getAvailableUploadId();
+        boolean ans = Pattern.matches("[\\d]{4}-[\\d]{2}-[\\d]{2} [\\d]{2}:[\\d]{2}:[\\d]{2}",crrntTime);
+        assertTrue(ans);
+    }
+
+    @Test
+   public  void testSetLiveUploadID() {
+        parser.setLiveUploadId("JAPSER");
+
+
+        Document searchDocument = new Document();
+        searchDocument.append("liveUploadId", "JAPSER");
+        MongoClient mongoClient = new MongoClient();
+        MongoDatabase test = mongoClient.getDatabase("test");
+        MongoCollection configCollection = test.getCollection("config");
+        String uploadID = JSON.serialize(configCollection.find(searchDocument));
+        assertEquals(80,uploadID.length());
+    }
+
 }
