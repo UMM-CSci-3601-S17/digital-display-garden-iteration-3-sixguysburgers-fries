@@ -1,0 +1,50 @@
+<navbar-component></navbar-component>
+
+<h2>Upload Photo</h2>
+<!--<file-upload #fu (change)="filename = undefined; uploadAttempted = false" [multiple]="false">-</file-upload>-->
+
+
+<!--<image-upload #iu (change)="filename = undefined; uploadAttempted = false" [multiple]="false">-</image-upload>
+-->
+
+
+
+
+
+
+<div *ngIf="filename!==undefined"> Your file was successfully uploaded as data set {{this.filename}}.
+</div>
+<div *ngIf="filename === undefined && uploadAttempted === true">File upload failed.</div>
+
+<br>
+
+<input #nameInput type="text" placeholder="Name For Your Photo" (input)="newFileName = $event.target.value">
+
+<br>
+<br>
+
+<input #flowerNameInput type="text" placeholder="Name of Flower in Photo" (input)="flowerName = $event.target.value">
+
+
+<br>
+<br>
+
+<div>
+    <!--https://developers.google.com/web/fundamentals/native-hardware/capturing-images/-->
+    <button type="button" class="btn btn-primary btn-lg">
+        <image-upload #iu (change)="filename = undefined; uploadAttempted = false" [multiple]="false">-</image-upload>
+        <span class="glyphicon glyphicon-camera" aria-hidden="true"></span>
+    </button>
+
+</div>
+
+<br>
+
+<button *ngIf="filename === undefined" class="btn btn-primary" (click)="this.handleUpload()" style="margin-top: 10px">
+    <span class="glyphicon glyphicon-upload" aria-hidden="true"></span>
+    Upload
+</button>
+
+<div>
+<button  [routerLink]="['/admin']" class="btn btn-primary" style="float: right">Back to Admin Page</button>
+</div>
