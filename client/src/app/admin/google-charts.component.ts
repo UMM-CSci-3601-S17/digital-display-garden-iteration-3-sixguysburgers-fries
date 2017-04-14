@@ -21,6 +21,7 @@ export class GraphComponent {
 
 
     ngOnInit(): void {
+        this.line_ChartData = Object.create(this.line_ChartData);
         this.adminService.getUploadIds()
             .subscribe(result => this.uploadIds = result, err => console.log(err));
         this.adminService.getGraphData()
